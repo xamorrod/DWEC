@@ -17,6 +17,7 @@ const PI = Math.PI;
 let age = prompt ("¿Cuántos años tienes?" ,100);
 alert ("Tienes " + age + " años");
 
-
+let isBoss = confirm("¿Si?");
+alert(isBoss);
 
 
