@@ -7,3 +7,4 @@ let apellido = prompt("¿Cuál es tu apellido?","Por Ejemplo: Doe");
 //Mostramos la alerta por pantalla con el nombre
 
 alert("Te llamas " + nombre + " " + apellido);
+
