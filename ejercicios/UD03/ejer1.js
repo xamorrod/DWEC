@@ -25,7 +25,7 @@ function createProfile() {
     " " +
     apellido2.toLowerCase();
 
-  dataDifferentLine = nombre + "< br >" + apellido1 + "< br >" + apellido2;
+  dataDifferentLine = nombre + "<br>" + apellido1 + "<br>" + apellido2;
 
   userName =
     nombre.charAt(0) + apellido1.substring(0, 2) + apellido2.substring(0, 2);

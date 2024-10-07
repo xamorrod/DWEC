@@ -1,23 +1,22 @@
 function imprimePrimos() {
   let cont = 0;
-  let cad = new Array();
-  
+  let cad = [];
 
-  while (cont < 100) {
-    for (let i = 0; cont < 100; i++) {
-      let isPrimo = true;
-      if (i > 2) {
-        for (let j = 2; j < Math.sqrt(i); j++) {
-          if (i % j == 0) {
-            isPrimo = false;
-          }
-        }
-        if(isPrimo){
-            cont++;
-            cad.concat(i);
-        }
+  for (let i = 2; cont < 1000; i++) {
+    let isPrimo = true;
+
+    for (let j = 2; j <= Math.sqrt(i); j++) {
+      if (i % j === 0) {
+        isPrimo = false;
+        break;
       }
     }
+
+    if (isPrimo) {
+      cont++;
+      cad.push(i);
+    }
   }
-  document.getElementById("salida").innerHTML = cad;
+
+  document.getElementById("salida").innerHTML = cad.join(", ");
 }
