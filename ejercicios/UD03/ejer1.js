@@ -1,7 +1,11 @@
 function createProfile() {
-  let nombre = document.formDatos.nombre.value;
-  let apellido1 = String(document.formDatos.apellido1.value);
-  let apellido2 = String(document.formDatos.apellido2.value);
+  let nombre = document.formDatos.nombre.value.replace(" ", "");
+  let apellido1 = String(document.formDatos.apellido1.value)
+    .trim()
+    .replace(" ", "");
+  let apellido2 = String(document.formDatos.apellido2.value)
+    .trim()
+    .replace(" ", "");
 
   //Inicilizando variables usadas
   let dataSize;
