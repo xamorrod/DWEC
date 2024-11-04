@@ -2,6 +2,13 @@
 
 const persona = new Object();
 
+const p2 = {
+  nombre: "Juan",
+  get nombre() {
+    return this._nombre;
+  },
+};
+
 persona.nombre = "amador";
 persona.edad = 8;
 
