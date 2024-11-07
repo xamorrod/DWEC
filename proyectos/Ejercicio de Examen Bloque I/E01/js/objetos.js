@@ -42,18 +42,16 @@ class Arbol {
     this._especie = especie;
   }
 
-  //Método
+  //Método mejorable
 
   toHTMLRow() {
-    return (
-      "<tr><td>",
-      this.codigo,
-      "</td>  <td>",
-      this.tallaje,
-      "</td>  <td>",
-      this.especie,
-      "</td> </tr>"
-    );
+    let valores = Object.values(this);
+    let salida = "<tr>";
+    for (let valor of valores) {
+      salida += "<td>" + valor + "</td>";
+    }
+    salida += "</tr>";
+    console.log(salida);
   }
 }
 
@@ -79,7 +77,7 @@ class Perenne extends Arbol {
     this._frutal = frutal;
   }
 
-  //Método tuHTMLRow()
+  //Método heredado toHTMLRow()
 }
 
 class Caduco extends Arbol {
@@ -120,7 +118,7 @@ class Vivero {
   }
 
   set arboles(arboles) {
-    this._arboles = _arboles.;
+    this._arboles = _arboles;
   }
 
   //Métodos
@@ -144,7 +142,13 @@ class Vivero {
     } else {
       oArbol = new Caduco(codigo, tallaje, especie, tipoArbol);
     }
-    Vivero.arboles
+
+    if (!this._arboles.contains(oArbol)) {
+      this._arboles.push(oArbol);
+    } else {
+      alert("El árbol ya estaba introducido");
+    }
+
     return oArbol instanceof Arbol;
   }
 

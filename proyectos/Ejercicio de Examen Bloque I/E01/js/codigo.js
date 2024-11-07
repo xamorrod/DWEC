@@ -1,4 +1,10 @@
 "use strict";
+
+const a = new Arbol(1001, 25, "pino");
+const b = new Perenne(1002, 25, "pino", true);
+console.log(a.toHTMLRow());
+console.log(b.toHTMLRow());
+
 // Variables globales
 let oVivero = new Vivero();
 
@@ -87,7 +93,9 @@ function aceptarListadoPerennes() {
 
   oVentana.document.open();
   oVentana.document.write(
-    "<h1>Listado de árboles perennes de altura mínima: " + iAlturaMinima + " cm</h1>"
+    "<h1>Listado de árboles perennes de altura mínima: " +
+      iAlturaMinima +
+      " cm</h1>"
   );
   oVentana.document.write(/*Listado a mostrar*/);
   oVentana.document.close();
@@ -105,7 +113,9 @@ function aceptarListadoCaducos() {
 
   oVentana.document.open();
   oVentana.document.write(
-    "<h1>Listado de árboles caducos con floración el mes: " + sMesFloracion + "</h1>"
+    "<h1>Listado de árboles caducos con floración el mes: " +
+      sMesFloracion +
+      "</h1>"
   );
   oVentana.document.write(/*listado a mostrar*/);
   oVentana.document.close();
