@@ -110,6 +110,9 @@ class Vivero {
   _arboles;
 
   //Constructores
+  constructor() {
+    this._arboles = [];
+  }
 
   //Getters && Setters
 
@@ -124,6 +127,10 @@ class Vivero {
   //Métodos
 
   altaArbol(oArbol) {
+    //Mirar si el arbol pasado no coincide con los árboles del vivero
+    if (this._arboles.contains(oArbol)) {
+    }
+
     const codigo = document.frmAltaArbol.txtCodigo.value;
     const tallaje = document.frmAltaArbol.txtTallaje.value;
     const especie = document.frmAltaArbol.txtEspecie.value;
