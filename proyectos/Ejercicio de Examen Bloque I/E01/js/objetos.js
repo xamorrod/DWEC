@@ -128,36 +128,33 @@ class Vivero {
 
   altaArbol(oArbol) {
     //Mirar si el arbol pasado no coincide con los árboles del vivero
-    if (this._arboles.contains(oArbol)) {
+    if (this._arboles.some((arbol) => arbol.codigo === oArbol.codigo)) {
+      alert("El árbol ya está registrado");
+      return false;
     }
-
-    const codigo = document.frmAltaArbol.txtCodigo.value;
-    const tallaje = document.frmAltaArbol.txtTallaje.value;
-    const especie = document.frmAltaArbol.txtEspecie.value;
-    const tipoArbol = document.frmAltaArbol.rbtTipoArbol.value;
-    if (
-      (codigo =
-        undefined ||
-        tallaje == undefined ||
-        especie == undefined ||
-        tipoArbol == undefined)
-    ) {
-      alert("Rellena todos los parámetros");
-    }
-    if ((tipoArbol = true || tipoArbol == false)) {
-      oArbol = new Perenne(codigo, tallaje, especie, tipoArbol);
-    } else {
-      oArbol = new Caduco(codigo, tallaje, especie, tipoArbol);
-    }
-
-    if (!this._arboles.contains(oArbol)) {
-      this._arboles.push(oArbol);
-    } else {
-      alert("El árbol ya estaba introducido");
-    }
-
+    this._arboles.push(oArbol);
     return oArbol instanceof Arbol;
   }
 
-  tallajeArbol(iCodigo, iTallaje) {}
+  tallajeArbol(iCodigo, iTallaje) {
+    let salida;
+    if (!iCodigo || !iTallaje) {
+      alert("Los dos campos deben estar rellenos");
+      return;
+    }
+    for (let arbol of this._arboles) {
+      if (arbol.codigo == iCodigo) {
+        if (iTallaje < arbol.tallaje) {
+          return "Tallaje inferior al registrado";
+        } else {
+          
+          arbol.tallaje = iTallaje;
+          return "Correcto, tallaje actualizado";
+        }
+        
+      }
+      
+    }
+    return "Árbol no registrado";
+  }
 }

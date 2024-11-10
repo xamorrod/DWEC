@@ -65,6 +65,27 @@ function ocultarTodosLosFormularios() {
 // aceptarAltaArbol
 function aceptarAltaArbol() {
   // Insertar el nuevo árbol
+  const codigo = document.frmAltaArbol.txtCodigo.value;
+  const tallaje = document.frmAltaArbol.txtTallaje.value;
+  const especie = document.frmAltaArbol.txtEspecie.value;
+  const tipoArbol = document.frmAltaArbol.rbtTipoArbol.value;
+  let oArbol;
+  if (!codigo || !tallaje || !especie || !tipoArbol) {
+    alert("Rellena todos los parámetros");
+    return false;
+  }
+  if (tipoArbol == "perenne") {
+    const frutal = document.frmAltaArbol.rbtFrutal.value === "S";
+    oArbol = new Perenne(codigo, tallaje, especie, frutal);
+  } else if (tipoArbol == "caduco") {
+    const mesFloracion = document.frmAltaArbol.txtMesFloracion.value;
+    if (!mesFloracion) {
+      alert("El mes de floración es obligatorio para árboles caducos.");
+      return false;
+    }
+    oArbol = new Caduco(codigo, tallaje, especie, mesFloracion);
+  }
+
   if (oVivero.altaArbol(oArbol)) {
     alert("Arbol registrado OK");
     frmAltaArbol.reset(); // Vaciamos los campos del formulario
@@ -75,12 +96,15 @@ function aceptarAltaArbol() {
 }
 
 function aceptarTallaje() {
-  let sRespuesta =
-    /*Llamada a tallajeArbol*/
+  let sRespuesta;
+  /*Llamada a tallajeArbol*/
+  const iCodigo = document.frmTallaje.txtCodigoArbol.value;
+  const iTallaje = document.frmTallaje.txtTallajeArbol.value;
+  sRespuesta = oVivero.tallajeArbol(iCodigo, iTallaje);
 
-    alert(sRespuesta);
+  alert(sRespuesta);
 
-  if (sRespuesta.includes("Correcto") > 0) {
+  if (sRespuesta.includes("Correcto")) {
     frmTallaje.reset();
     frmTallaje.style.display = "none";
   }
