@@ -31,39 +31,55 @@
         <ul class="nav navbar-nav">
           <li>
             <a href="#" onclick="gestionFormularios('frmAltaArbol');"
-              >Alta de árbol</a
+              >Añadir cliente</a
+            >
+          </li>
+          <li>
+            <a href="#" onclick="gestionFormularios('frmAltaArbol');"
+              >Añadir alojamiento</a
+            >
+          </li>
+          <li>
+            <a href="#" onclick="gestionFormularios('frmAltaArbol');"
+              >Gestionar reservas</a
+            >
+          </li>
+          <li>
+            <a href="#" onclick="gestionFormularios('frmAltaArbol');"
+              >Listado de clientes</a
             >
           </li>
           <li>
             <a href="#" onclick="gestionFormularios('frmTallaje');"
-              >Tallaje árbol</a
+              >Listado de alojamientos</a
             >
           </li>
           <li>
             <a href="#" onclick="gestionFormularios('frmListadoPerennes');"
-              >Listado perennes</a
+              >Listado reservas por cliente</a
             >
           </li>
           <li>
             <a href="#" onclick="gestionFormularios('frmListadoCaducos');"
-              >Listado caducos</a
+              >Listado reservas entre dos fechas</a
             >
           </li>
           <li>
             <a href="#" onclick="totalArbolesVenta();"
-              >Total árboles en venta</a
+              >Listado de habitaciones con desayuno</a
             >
           </li>
         </ul>
       </div>
     </nav>
     <div class="container-fluid" id="formularios">
-      <form class="form-horizontal" name="frmAltaArbol" id="frmAltaArbol">
+      <form class="form-horizontal" name="frmListaCliente" id="frmListaCliente">
         <fieldset>
           <!-- Form Name -->
-          <legend>Alta de árbol</legend>
+          <legend>Listado de clientes</legend>
           <!-- Text input-->
           <div class="form-group">
+            <!-- Pendiente de llamar funcion mostrar listado de clientes en el NAV -->
             <label class="col-xs-4 control-label" for="txtCodigo">Código</label>
             <div class="col-xs-4">
               <input
@@ -77,6 +93,7 @@
           </div>
           <!-- Text input-->
           <div class="form-group">
+             <!-- Pendiente de llamar funcion mostrar listado de alojamientos en el NAV -->
             <label class="col-xs-4 control-label" for="txtTallaje"
               >Tallaje</label
             >

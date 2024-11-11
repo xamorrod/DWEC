@@ -121,7 +121,7 @@ class Vivero {
   }
 
   set arboles(arboles) {
-    this._arboles = _arboles;
+    this.arboles = _arboles;
   }
 
   //Métodos
