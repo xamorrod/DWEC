@@ -51,7 +51,7 @@ class Arbol {
       salida += "<td>" + valor + "</td>";
     }
     salida += "</tr>";
-    console.log(salida);
+    return salida;
   }
 }
 
@@ -147,14 +147,60 @@ class Vivero {
         if (iTallaje < arbol.tallaje) {
           return "Tallaje inferior al registrado";
         } else {
-          
           arbol.tallaje = iTallaje;
           return "Correcto, tallaje actualizado";
         }
-        
       }
-      
     }
     return "Árbol no registrado";
+  }
+
+  listadoPerennes(iMinAltura) {
+    const listArboles = [];
+    for (let arbolPerenne of this.arboles) {
+      if (
+        arbolPerenne instanceof Perenne &&
+        arbolPerenne.tallaje > iMinAltura
+      ) {
+        listArboles.push(arbolPerenne);
+      }
+    }
+    return listArboles;
+  }
+
+  listadoCaducos(sMesFloracion) {
+    const listArboles = [];
+    for (let arbolCaduco of this.arboles) {
+      if (
+        arbolCaduco instanceof Caduco &&
+        arbolCaduco.mesFloracion > sMesFloracion
+      ) {
+        listArboles.push(arbolCaduco);
+      }
+    }
+    return listArboles;
+  }
+
+  totalArbolesVenta() {
+    let cont = 0;
+    for (let arbol of this.arboles) {
+      console.log(cont);
+      if (arbol instanceof Caduco && arbol.tallaje > 100) {
+        cont++;
+      } else if (
+        arbol instanceof Perenne &&
+        arbol.frutal == true &&
+        arbol.tallaje > 80
+      ) {
+        cont++;
+      } else if (
+        arbol instanceof Perenne &&
+        arbol.frutal == false &&
+        arbol.tallaje > 120
+      ) {
+        cont++;
+      }
+    }
+    return cont;
   }
 }
