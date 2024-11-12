@@ -55,20 +55,72 @@ class Agencia {
   bajaReserva(idReserva) {
     //Devuelve str
   }
+
   listadoClientes() {
-    //Deuelve HTML table
+    //Devuelve HTML table
+    //Obtiene los atrib del objeto usando el metodo de la clase toHTMLRow
+    let salida = "<table><thead>Listado de clientes</thead>";
+    for (let cliente of this.clientes) {
+      salida += cliente.toHTMLRow();
+    }
+    salida += "</table>";
+    return salida;
   }
+
   listadoAlojamientos() {
     //Devuelve HTML table
+    let salida = "<table><thead>Listado de alojamientos</thead>";
+    for (let alojamiento of this.alojamientos) {
+      salida += alojamiento.toHTMLRow();
+    }
+    salida += "</table>";
+    return salida;
   }
   listadoReservas(fechaInicio, fechaFin) {
     //Devuelve HTML table
+    let salida = "<table><thead>Listado de reservas entre fechas</thead>";
+    for (let reserva of this.reservas) {
+      if (reserva.fechaInicio == fechaInicio && reserva.fechaFin == fechaFin) {
+        //TODO: Atributos acotados por el enunciado
+        salida += reserva.toHTMLRow();
+      }
+    }
+    salida += "</table>";
+    return salida;
   }
-  listadoReservasCliente(idCliente) {
+  listadoReservasCliente(dniCliente) {
     //Devuelve HTML table
+    let salida = "<table><thead>Listado de reservas de un cliente</thead>";
+    for (let reserva of this.reservas) {
+      if (reserva.cliente.dniCliente == dniCliente) {
+        salida += reserva.toHTMLRow();
+      }
+    }
+    salida += "</table>";
+    return salida;
   }
   listadoHabitacionesConDesayuno() {
     //Devuelve HTML table
+    const listaAlojamientos = [];
+    let salida =
+      "<table><thead>Listado de habitaciones con desayuno incluido</thead>";
+    for (let alojamiento of this.alojamientos) {
+      if (alojamiento instanceof Habitacion && alojamiento.desayuno == true) {
+        listaAlojamientos.push(alojamiento);
+      }
+    }
+    const listadoOrdenado = listaAlojamientos.sort((a, b) => {
+      if (a.numPersonas == b.numPersonas) {
+        return a.idAlojamiento - b.idAlojamiento;
+      }
+      return b.numPersonas - a.numPersonas;
+    });
+    
+    for (let alojamiento of listadoOrdenado) {
+      salida += alojamiento.toHTMLRow();
+    }
+    salida += "</table>";
+    return salida;
   }
 }
 
@@ -81,11 +133,11 @@ class Cliente {
 
   // Constructor
 
-  constructor(dniCliente, nombre, apellidos, usuario) {
+  constructor(dniCliente, nombre, apellidos) {
     this.dniCliente = dniCliente;
     this.nombre = nombre;
     this.apellidos = apellidos;
-    this.usuario = usuario;
+    this.usuario = obtenerUsuario(nombre, apellidos, dniCliente);
   }
 
   // Getters && Setters
@@ -124,8 +176,23 @@ class Cliente {
 
   // Métodos
 
+  //Método que devuelve el nombre de usuario según las especificaciones del programa
+
+  obtenerUsuario(nombre, apellidos, dniCliente) {
+    return (
+      nombre.charAt(0) +
+      apellidos.substring(0, 3) +
+      dniCliente.substring(dniCliente.length() - 4, dniCliente.length() - 1)
+    );
+  }
   toHTMLRow() {
-    //Devuelve HTML row
+    let valores = Object.values(this);
+    let salida = "<tr>";
+    for (let valor of valores) {
+      salida += "<td>" + valor + "</td>";
+    }
+    salida += "</tr>";
+    return salida;
   }
 }
 
@@ -140,18 +207,121 @@ class Reserva {
 
   // Constructor
 
-  constructor(idReserva, cliente, alojamientos, fechaInicio, fechaFin) {
-    this.idReserva = idReserva;
-    this.cliente = cliente;
-    this.alojamientos = [];
-    this.fechaInicio = fechaInicio;
-    this.fechaFin = fechaFin;
+  constructor(
+    idReserva,
+    cliente,
+    alojamientos,
+    fechaInicio,
+    fechaFin,
+    agencia
+  ) {
+    //Filtrar por alojamientos que no hayan sido reservador anteriormente en las fechas elegidas
+    //En cada reserva se pueden añadir tantos alojamientos como se desee
+    //Filtrar por fechas
+    if (
+      this.checkAlojamiento() &&
+      this.checkFecha() &&
+      this.checkReservado(agencia)
+    ) {
+      this.idReserva = idReserva;
+      this.cliente = cliente;
+      this.alojamientos = [];
+      this.fechaInicio = fechaInicio;
+      this.fechaFin = fechaFin;
+    }
+  }
+
+  // Getters && Setters
+
+  get idReserva() {
+    return this._idReserva;
+  }
+
+  set idReserva(idReserva) {
+    this._idReserva = idReserva;
+  }
+
+  get cliente() {
+    return this._cliente;
+  }
+
+  set cliente(cliente) {
+    this._cliente = cliente;
+  }
+
+  get alojamientos() {
+    return this._alojamientos;
+  }
+
+  set alojamientos(alojamientos) {
+    this._alojamientos = alojamientos;
+  }
+
+  get fechaInicio() {
+    return this._fechaInicio;
+  }
+
+  set fechaInicio(fechaInicio) {
+    this._fechaInicio = fechaInicio;
+  }
+
+  get fechaFin() {
+    return this._fechaFin;
+  }
+
+  set fechaFin(fechaFin) {
+    this._fechaFin = fechaFin;
   }
 
   // Métodos
 
+  //Comprobar alojamiento
+
+  checkAlojamiento() {
+    //Comprobamos que la reserva no esté haciéndose sobre otra previa
+
+    if (this.alojamientos.length() == Set(this.alojamientos.length())) {
+      //No hay alojamientos repetidos
+      return true;
+    }
+    alert("Se está intenando reservar un alojamiento repetido");
+    return false;
+  }
+
+  //Comprobar si no esta reservado
+
+  checkReservado(agencia) {
+    //Lógica que checkea si cada alojamiento pertenece a otra reserva o no
+    for (let reserva of agencia.reservas) {
+      for (let alojamiento of reserva.alojamientos) {
+        if (this.alojamientos.includes(alojamiento)) {
+          //Hemos encontrado una ocurrencia en la que se está intentando repetir
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  //Comprobar fecha
+
+  checkFecha(fechaInicio, fechaFin) {
+    const fechaActual = new Date();
+    if (fechaActual > fechaInicio || fechaActual > fechaFin) {
+      alert("Se está intentando reservar en un plazo incorrecto");
+      return false;
+    }
+    return true;
+  }
+
   toHTMLRow() {
-    //Devuelve HTMLRow
+    let valores = Object.values(this);
+    let salida = "<tr>";
+    for (let valor of valores) {
+      salida += "<td>" + valor + "</td>";
+    }
+    salida += "</tr>";
+    return salida;
   }
 }
 
@@ -160,12 +330,17 @@ class Alojamiento {
 
   _idAlojamiento;
   _numPersonas;
+  //Atributo añadido para controlar los alojamientos
+  _recuentoAlojamiento;
 
   // Constructor
 
   constructor(idAlojamiento, numPersonas) {
-    this.idAlojamiento = idAlojamiento;
-    this.numPersonas = numPersonas;
+    if (!recuentoAlojamientos(idAlojamiento)) {
+      this.idAlojamiento = idAlojamiento;
+      this.numPersonas = numPersonas;
+    }
+    console.log("No es posible añadir este alojamiento");
   }
 
   // Getters && Setters
@@ -188,8 +363,26 @@ class Alojamiento {
 
   // Métodos
 
-  toHTMLRow(){
-    //Devuelve toHTML Row
+  // Creamos un método para llevar el recuento de los alojamientos y evitar duplicados
+
+  recuentoAlojamientos(idAlojamiento) {
+    if (this._recuentoAlojamiento.includes(idAlojamiento)) {
+      alert("La licencia de alojamiento ya está en uso");
+      return false;
+    } else {
+      this._recuentoAlojamiento.push(idAlojamiento);
+      return true;
+    }
+  }
+
+  toHTMLRow() {
+    let valores = Object.values(this);
+    let salida = "<tr>";
+    for (let valor of valores) {
+      salida += "<td>" + valor + "</td>";
+    }
+    salida += "</tr>";
+    return salida;
   }
 }
 
