@@ -34,7 +34,7 @@ class Agencia {
   }
 
   get alojamientos() {
-    return this.alojamientos;
+    return this._alojamientos;
   }
 
   set alojamientos(alojamientos) {
@@ -44,16 +44,48 @@ class Agencia {
   // Métodos
 
   altaCliente(oCliente) {
-    //Devuelve str
+    console.log(oCliente)
+    if (!(oCliente instanceof Cliente)) {
+      return "El cliente no es válido";
+    }
+
+    for (let cliente of this.clientes) {
+      if(oCliente.dniCliente == cliente.dniCliente){
+        return "El cliente ya está registrado";
+      }
+    }
+
+    this.clientes.push(oCliente);
+    return `Cliente ${oCliente.nombre} registrado correctamente`;
   }
   altaAlojamiento(oAlojamiento) {
+    if (
+      oAlojamiento instanceof Alojamiento &&
+      !this.alojamientos.includes(oAlojamiento)
+    ) {
+      this.alojamientos.push(oAlojamiento);
+      return `Se ha introducido el alojamiento con ID: ${oAlojamiento.idAlojamiento}`;
+    }
+
     //Devuelve str
   }
   altaReserva(oReserva) {
     //Devuelve str
+    if (oReserva instanceof Reserva && !this.reservas.includes(oReserva)) {
+      this.reservas.push(oReserva);
+      return `Se ha introducido la reserva con ID: ${oReserva.idReserva}`;
+    }
   }
   bajaReserva(idReserva) {
     //Devuelve str
+    for (let reserva of this.reservas) {
+      //Buscamos la ocurrencia de la id para poder dar de baja ese objeto reserva y sacarlo del array
+      if (reserva.idReserva == idReserva) {
+        this.reservas.pop(reserva);
+        return `Se ha eliminado la reserva con ID: ${reserva.idReserva}`;
+      }
+    }
+    alert("No se ha encontrado la reserva introducida");
   }
 
   listadoClientes() {
@@ -115,7 +147,7 @@ class Agencia {
       }
       return b.numPersonas - a.numPersonas;
     });
-    
+
     for (let alojamiento of listadoOrdenado) {
       salida += alojamiento.toHTMLRow();
     }
@@ -137,7 +169,7 @@ class Cliente {
     this.dniCliente = dniCliente;
     this.nombre = nombre;
     this.apellidos = apellidos;
-    this.usuario = obtenerUsuario(nombre, apellidos, dniCliente);
+    this.usuario = this.obtenerUsuario(nombre, apellidos, dniCliente);
   }
 
   // Getters && Setters
@@ -182,7 +214,7 @@ class Cliente {
     return (
       nombre.charAt(0) +
       apellidos.substring(0, 3) +
-      dniCliente.substring(dniCliente.length() - 4, dniCliente.length() - 1)
+      dniCliente.substring(dniCliente.length - 4)
     );
   }
   toHTMLRow() {
@@ -215,17 +247,15 @@ class Reserva {
     fechaFin,
     agencia
   ) {
-    //Filtrar por alojamientos que no hayan sido reservador anteriormente en las fechas elegidas
-    //En cada reserva se pueden añadir tantos alojamientos como se desee
-    //Filtrar por fechas
+    // Filtrar por alojamientos que no hayan sido reservados anteriormente en las fechas elegidas
     if (
-      this.checkAlojamiento() &&
-      this.checkFecha() &&
-      this.checkReservado(agencia)
+      this.checkAlojamiento(alojamientos) &&
+      this.checkFecha(fechaInicio, fechaFin) &&
+      this.checkReservado(agencia, alojamientos)
     ) {
       this.idReserva = idReserva;
       this.cliente = cliente;
-      this.alojamientos = [];
+      this.alojamientos = alojamientos;
       this.fechaInicio = fechaInicio;
       this.fechaFin = fechaFin;
     }
@@ -278,24 +308,34 @@ class Reserva {
   //Comprobar alojamiento
 
   checkAlojamiento() {
-    //Comprobamos que la reserva no esté haciéndose sobre otra previa
+    // Comprobamos si algún alojamiento ya está reservado
+    const alojamientosUnicos = this.alojamientos.filter(
+      (alojamiento, index, self) =>
+        self.findIndex((a) => a.idAlojamiento === alojamiento.idAlojamiento) ===
+        index
+    );
 
-    if (this.alojamientos.length() == Set(this.alojamientos.length())) {
-      //No hay alojamientos repetidos
+    if (alojamientosUnicos.length === this.alojamientos.length) {
+      // No hay alojamientos repetidos
       return true;
     }
-    alert("Se está intenando reservar un alojamiento repetido");
+    alert("Se está intentando reservar un alojamiento repetido");
     return false;
   }
 
   //Comprobar si no esta reservado
 
-  checkReservado(agencia) {
+  checkReservado(agencia, alojamientos) {
     //Lógica que checkea si cada alojamiento pertenece a otra reserva o no
     for (let reserva of agencia.reservas) {
       for (let alojamiento of reserva.alojamientos) {
-        if (this.alojamientos.includes(alojamiento)) {
-          //Hemos encontrado una ocurrencia en la que se está intentando repetir
+        if (
+          alojamientos.some(
+            (al) => al.idAlojamiento === alojamiento.idAlojamiento
+          )
+        ) {
+          // Hemos encontrado una ocurrencia en la que se está intentando repetir
+          alert("Alojamiento ya reservado en esas fechas");
           return false;
         }
       }
@@ -331,16 +371,16 @@ class Alojamiento {
   _idAlojamiento;
   _numPersonas;
   //Atributo añadido para controlar los alojamientos
-  _recuentoAlojamiento;
+  _recuentoAlojamiento = [];
 
   // Constructor
 
   constructor(idAlojamiento, numPersonas) {
-    if (!recuentoAlojamientos(idAlojamiento)) {
+    if (this.recuentoAlojamientos(idAlojamiento)) {
       this.idAlojamiento = idAlojamiento;
       this.numPersonas = numPersonas;
     }
-    console.log("No es posible añadir este alojamiento");
+    
   }
 
   // Getters && Setters

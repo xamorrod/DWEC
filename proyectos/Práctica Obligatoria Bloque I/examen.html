@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>Franquicia Dos hermanas</title>
+    <title>Gestión de Hoteles</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
@@ -26,337 +26,383 @@
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Franquicia</a>
+          <a class="navbar-brand" href="#">Gestión de Hoteles</a>
         </div>
         <ul class="nav navbar-nav">
           <li>
-            <a href="#" onclick="gestionFormularios('frmAltaArbol');"
+            <a href="#" onclick="gestionFormularios('frmAltaCliente');"
               >Añadir cliente</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmAltaArbol');"
+            <a href="#" onclick="gestionFormularios('frmAltaAlojamiento');"
               >Añadir alojamiento</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmAltaArbol');"
-              >Gestionar reservas</a
+            <a href="#" onclick="gestionFormularios('frmAltaReserva');"
+              >Añadir Reserva</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmAltaArbol');"
+            <a href="#" onclick="gestionFormularios('frmBajaReserva');"
+              >Eliminar reserva</a
+            >
+          </li>
+          <li>
+            <a href="#" onclick="gestionFormularios('frmListadoCliente');"
               >Listado de clientes</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmTallaje');"
+            <a href="#" onclick="gestionFormularios('frmListadoAlojamientos');"
               >Listado de alojamientos</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmListadoPerennes');"
+            <a
+              href="#"
+              onclick="gestionFormularios('frmListadoReservasPorCliente');"
               >Listado reservas por cliente</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmListadoCaducos');"
+            <a
+              href="#"
+              onclick="gestionFormularios('frmListadoReservasEntreFechas');"
               >Listado reservas entre dos fechas</a
-            >
-          </li>
-          <li>
-            <a href="#" onclick="totalArbolesVenta();"
-              >Listado de habitaciones con desayuno</a
             >
           </li>
         </ul>
       </div>
     </nav>
-    <div class="container-fluid" id="formularios">
-      <form class="form-horizontal" name="frmListaCliente" id="frmListaCliente">
-        <fieldset>
-          <!-- Form Name -->
-          <legend>Listado de clientes</legend>
-          <!-- Text input-->
-          <div class="form-group">
-            <!-- Pendiente de llamar funcion mostrar listado de clientes en el NAV -->
-            <label class="col-xs-4 control-label" for="txtCodigo">Código</label>
-            <div class="col-xs-4">
-              <input
-                id="txtCodigo"
-                name="txtCodigo"
-                placeholder="Codigo"
-                class="form-control input-md"
-                type="text"
-              />
-            </div>
-          </div>
-          <!-- Text input-->
-          <div class="form-group">
-             <!-- Pendiente de llamar funcion mostrar listado de alojamientos en el NAV -->
-            <label class="col-xs-4 control-label" for="txtTallaje"
-              >Tallaje</label
-            >
-            <div class="col-xs-4">
-              <input
-                id="txtTallaje"
-                name="txtTallaje"
-                placeholder="Tallaje"
-                class="form-control input-md"
-                type="text"
-              />
-            </div>
-          </div>
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-xs-4 control-label" for="txtEspecie"
-              >Especie</label
-            >
-            <div class="col-xs-4">
-              <input
-                id="txtEspecie"
-                name="txtEspecie"
-                placeholder="Especie"
-                class="form-control input-md"
-                type="text"
-              />
-            </div>
-          </div>
-          <!-- Multiple Radios -->
-          <div class="form-group">
-            <label class="col-xs-4 control-label" for="rbtTipoArbol"
-              >Tipo de árbol</label
-            >
-            <div class="col-xs-4">
-              <div class="radio">
-                <input
-                  name="rbtTipoArbol"
-                  id="rbtTipoArbol-C"
-                  value="caduco"
-                  checked="checked"
-                  type="radio"
-                />
-                <label for="rbtTipoArbol-C">Caduco</label>
-              </div>
-              <div class="radio">
-                <input
-                  name="rbtTipoArbol"
-                  id="rbtTipoArbol-P"
-                  value="perenne"
-                  type="radio"
-                />
-                <label for="rbtTipoArbol-P">Perenne</label>
-              </div>
-            </div>
-          </div>
 
-          <!-- Multiple Radios -->
+    <div class="container-fluid" id="formularios">
+      <!-- Formulario de Alta Cliente -->
+      <form class="form-horizontal" name="frmAltaCliente" id="frmAltaCliente">
+        <fieldset>
+          <legend>Alta cliente</legend>
+          <!-- Campo DNI del Cliente -->
           <div class="form-group">
-            <label class="col-xs-4 control-label" for="rbtFrutal">Frutal</label>
+            <label class="col-xs-4 control-label" for="txtDni">DNI</label>
+            <div class="col-xs-4">
+              <input
+                id="txtDni"
+                name="txtDni"
+                placeholder="DNI"
+                class="form-control input-md"
+                type="text"
+              />
+            </div>
+          </div>
+          <!-- Campo Nombre del Cliente -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="txtNombre">Nombre</label>
+            <div class="col-xs-4">
+              <input
+                id="txtNombre"
+                name="txtNombre"
+                placeholder="Nombre"
+                class="form-control input-md"
+                type="text"
+              />
+            </div>
+          </div>
+          <!-- Campo Apellidos del Cliente -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="txtApellidos"
+              >Apellidos</label
+            >
+            <div class="col-xs-4">
+              <input
+                id="txtApellidos"
+                name="txtApellidos"
+                placeholder="Apellidos"
+                class="form-control input-md"
+                type="text"
+              />
+            </div>
+          </div>
+          <!-- Botón para aceptar el alta del cliente -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="btnAltaCliente"></label>
+            <div class="col-xs-4">
+              <input
+                type="button"
+                id="btnAltaCliente"
+                name="btnAltaCliente"
+                class="btn btn-primary"
+                value="Aceptar"
+                onclick="aceptarAltaCliente();"
+              />
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+      <!-- Formulario de Alta Alojamiento -->
+      <form
+        class="form-horizontal"
+        name="frmAltaAlojamiento"
+        id="frmAltaAlojamiento"
+      >
+        <fieldset>
+          <legend>Alta alojamiento</legend>
+          <!-- Campo ID Alojamiento -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="txtIdAlojamiento"
+              >Id Alojamiento</label
+            >
+            <div class="col-xs-4">
+              <input
+                id="txtIdAlojamiento"
+                name="txtIdAlojamiento"
+                placeholder="Alojamiento"
+                class="form-control input-md"
+                type="text"
+              />
+            </div>
+          </div>
+          <!-- Campo Número de Personas -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="txtNumeroPersonas"
+              >Número de personas</label
+            >
+            <div class="col-xs-4">
+              <input
+                id="txtNumeroPersonas"
+                name="txtNumeroPersonas"
+                placeholder="NumeroPersonas"
+                class="form-control input-md"
+                type="text"
+              />
+            </div>
+          </div>
+          <!-- Campo para seleccionar Parking (Sí/No) -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="rbtParking"
+              >Parking</label
+            >
             <div class="col-xs-4">
               <div class="radio">
                 <input
-                  name="rbtFrutal"
-                  id="rbtFrutal-S"
+                  name="rbtParking"
+                  id="rbtParking-S"
                   value="S"
                   checked="checked"
                   type="radio"
                 />
-                <label for="rbtFrutal-S">Sí</label>
+                <label for="rbtParking-S">Sí</label>
               </div>
               <div class="radio">
                 <input
-                  name="rbtFrutal"
-                  id="rbtFrutal-N"
+                  name="rbtParking"
+                  id="rbtParking-N"
                   value="N"
-                  checked="checked"
                   type="radio"
                 />
-                <label for="rbtFrutal-N">No</label>
+                <label for="rbtParking-N">No</label>
               </div>
             </div>
           </div>
-          <!-- Text input-->
+          <!-- Campo para seleccionar Dormitorios -->
           <div class="form-group">
-            <label class="col-xs-4 control-label" for="txtMesFloracion"
-              >Mes de floración
-            </label>
+            <label class="col-xs-4 control-label" for="txtDormitorios"
+              >Dormitorios</label
+            >
             <div class="col-xs-4">
               <input
-                id="txtMesFloracion"
-                name="txtMesFloracion"
-                placeholder="Mes de floración"
+                id="txtDormitorios"
+                name="txtDormitorios"
+                placeholder="Dormitorios"
                 class="form-control input-md"
                 type="text"
               />
             </div>
           </div>
-
-          <!-- Input Button -->
+          <!-- Campo para seleccionar si tiene Desayuno -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="rbtDesayuno"
+              >Desayuno</label
+            >
+            <div class="col-xs-4">
+              <div class="radio">
+                <input
+                  name="rbtDesayuno"
+                  id="rbtDesayuno-S"
+                  value="S"
+                  checked="checked"
+                  type="radio"
+                />
+                <label for="rbtDesayuno-S">Sí</label>
+              </div>
+              <div class="radio">
+                <input
+                  name="rbtDesayuno"
+                  id="rbtDesayuno-N"
+                  value="N"
+                  type="radio"
+                />
+                <label for="rbtDesayuno-N">No</label>
+              </div>
+            </div>
+          </div>
+          <!-- Botón para aceptar el alta del alojamiento -->
           <div class="form-group">
             <label
               class="col-xs-4 control-label"
-              for="btnAceptarAltaArbol"
+              for="btnAltaAlojamiento"
             ></label>
             <div class="col-xs-4">
               <input
                 type="button"
-                id="btnAceptarAltaArbol"
-                name="btnAceptarAltaArbol"
+                id="btnAltaAlojamiento"
+                name="btnAltaAlojamiento"
                 class="btn btn-primary"
                 value="Aceptar"
-                onclick="aceptarAltaArbol();"
+                onclick="aceptarAltaAlojamiento();"
               />
             </div>
           </div>
         </fieldset>
       </form>
-      <form class="form-horizontal" name="frmTallaje" id="frmTallaje">
+
+      <!-- Formulario de Alta Reserva -->
+      <form class="form-horizontal" name="frmAltaReserva" id="frmAltaReserva">
         <fieldset>
-          <!-- Form Name -->
-          <legend>Tallaje de árbol</legend>
-
-          <!-- Text input-->
+          <legend>Alta reserva</legend>
+          <!-- Campo DNI Cliente -->
           <div class="form-group">
-            <label class="col-xs-4 control-label" for="txtCodigoArbol"
-              >Codigo</label
+            <label class="col-xs-4 control-label" for="txtClienteDni"
+              >DNI Cliente</label
             >
             <div class="col-xs-4">
               <input
-                id="txtCodigoArbol"
-                name="txtCodigoArbol"
-                placeholder="Codigo"
+                id="txtClienteDni"
+                name="txtClienteDni"
+                placeholder="DNI del cliente"
                 class="form-control input-md"
                 type="text"
               />
             </div>
           </div>
-
-          <!-- Text input-->
+          <!-- Campo ID Alojamiento -->
           <div class="form-group">
-            <label class="col-xs-4 control-label" for="txtTallajeArbol"
-              >Tallaje</label
+            <label class="col-xs-4 control-label" for="txtIdAlojamientoReserva"
+              >Id Alojamiento</label
             >
             <div class="col-xs-4">
               <input
-                id="txtTallajeArbol"
-                name="txtTallajeArbol"
-                placeholder="Tallaje"
+                id="txtIdAlojamientoReserva"
+                name="txtIdAlojamientoReserva"
+                placeholder="Id del alojamiento"
                 class="form-control input-md"
                 type="text"
               />
             </div>
           </div>
-
-          <!-- Input Button -->
+          <!-- Campo Fecha de Entrada -->
           <div class="form-group">
-            <label
-              class="col-xs-4 control-label"
-              for="btnAceptarAltaRevision"
-            ></label>
+            <label class="col-xs-4 control-label" for="txtFechaEntrada"
+              >Fecha de Entrada</label
+            >
+            <div class="col-xs-4">
+              <input
+                id="txtFechaEntrada"
+                name="txtFechaEntrada"
+                placeholder="Fecha de Entrada"
+                class="form-control input-md"
+                type="date"
+              />
+            </div>
+          </div>
+          <!-- Campo Fecha de Salida -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="txtFechaSalida"
+              >Fecha de Salida</label
+            >
+            <div class="col-xs-4">
+              <input
+                id="txtFechaSalida"
+                name="txtFechaSalida"
+                placeholder="Fecha de Salida"
+                class="form-control input-md"
+                type="date"
+              />
+            </div>
+          </div>
+          <!-- Botón para aceptar la reserva -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="btnAltaReserva"></label>
             <div class="col-xs-4">
               <input
                 type="button"
-                id="btnAceptarTallaje"
-                name="btnAceptarTallaje"
+                id="btnAltaReserva"
+                name="btnAltaReserva"
                 class="btn btn-primary"
                 value="Aceptar"
-                onclick="aceptarTallaje();"
+                onclick="aceptarAltaReserva();"
               />
             </div>
           </div>
         </fieldset>
       </form>
-      <form
-        class="form-horizontal"
-        name="frmListadoPerennes"
-        id="frmListadoPerennes"
-      >
+
+      <!-- Formulario de Baja Reserva -->
+      <form class="form-horizontal" name="frmBajaReserva" id="frmBajaReserva">
         <fieldset>
-          <!-- Form Name -->
-          <legend>Listado de árboles perennes</legend>
-
-          <!-- Text input-->
+          <legend>Eliminar Reserva</legend>
+          <!-- Campo Id Reserva a Eliminar -->
           <div class="form-group">
-            <label class="col-xs-4 control-label" for="txtAlturaMinima"
-              >Altura mínima</label
+            <label class="col-xs-4 control-label" for="txtIdReservaEliminar"
+              >Id Reserva</label
             >
             <div class="col-xs-4">
               <input
-                id="txtAlturaMinima"
-                name="txtAlturaMinima"
-                placeholder="Altura mínima"
+                id="txtIdReservaEliminar"
+                name="txtIdReservaEliminar"
+                placeholder="Id de la reserva"
                 class="form-control input-md"
                 type="text"
               />
             </div>
           </div>
-
-          <!-- Button -->
+          <!-- Botón para confirmar baja de reserva -->
           <div class="form-group">
-            <label
-              class="col-xs-4 control-label"
-              for="btnAceptarListadoPerenne"
-            ></label>
+            <label class="col-xs-4 control-label" for="btnBajaReserva"></label>
             <div class="col-xs-4">
               <input
                 type="button"
-                id="btnAceptarListadoPerenne"
-                name="btnAceptarListadoPerenne"
-                class="btn btn-primary"
-                value="Aceptar"
-                onclick="aceptarListadoPerennes();"
+                id="btnBajaReserva"
+                name="btnBajaReserva"
+                class="btn btn-danger"
+                value="Eliminar"
+                onclick="aceptarBajaReserva();"
               />
             </div>
           </div>
         </fieldset>
       </form>
-      <form
-        class="form-horizontal"
-        name="frmListadoCaducos"
-        id="frmListadoCaducos"
-      >
-        <fieldset>
-          <!-- Form Name -->
-          <legend>Listado de árboles caducos</legend>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-xs-4 control-label" for="txtMesListado"
-              >Mes de floración</label
-            >
-            <div class="col-xs-4">
-              <input
-                id="txtMesListado"
-                name="txtMesListado"
-                placeholder="Mes de floración"
-                class="form-control input-md"
-                type="text"
-              />
-            </div>
-          </div>
+      <!-- Listados de Clientes, Alojamientos y Reservas -->
+      <div id="frmListadoCliente" style="display: none">
+        <!-- Aquí irá el listado de clientes, implementar una tabla con datos -->
+      </div>
 
-          <!-- Input Button -->
-          <div class="form-group">
-            <label
-              class="col-xs-4 control-label"
-              for="btnAceptarListadoCaduco"
-            ></label>
-            <div class="col-xs-4">
-              <input
-                type="button"
-                id="btnAceptarListadoCaduco"
-                name="btnAceptarListadoCaduco"
-                class="btn btn-primary"
-                value="Aceptar"
-                onclick="aceptarListadoCaducos();"
-              />
-            </div>
-          </div>
-        </fieldset>
-      </form>
+      <div id="frmListadoAlojamientos" style="display: none">
+        <!-- Aquí irá el listado de alojamientos, implementar una tabla con datos -->
+      </div>
+
+      <div id="frmListadoReservasPorCliente" style="display: none">
+        <!-- Aquí irá el listado de reservas por cliente, implementar un formulario de búsqueda -->
+      </div>
+
+      <div id="frmListadoReservasEntreFechas" style="display: none">
+        <!-- Aquí irá el listado de reservas entre fechas, implementar formularios de fecha -->
+      </div>
     </div>
-    <script type="text/javascript" src="js/objetos.js"></script>
-    <script type="text/javascript" src="js/codigo.js"></script>
+
+    <script src="./objetos.js"></script>
+    <script src="./principal.js"></script>
   </body>
 </html>
