@@ -58,13 +58,17 @@ class Agencia {
     return `Cliente ${oCliente.nombre} registrado correctamente`;
   }
   altaAlojamiento(oAlojamiento) {
-    if (
-      oAlojamiento instanceof Alojamiento &&
-      !this.alojamientos.includes(oAlojamiento)
-    ) {
-      this.alojamientos.push(oAlojamiento);
-      return `Se ha introducido el alojamiento con ID: ${oAlojamiento.idAlojamiento}`;
+    if (!oAlojamiento instanceof Alojamiento) {
+      return "El alojamiento no es válido";
     }
+    for (let alojamiento of this.alojamientos) {
+      if (oAlojamiento.idAlojamiento == alojamiento.idAlojamiento) {
+        return "El alojamiento ya está registrado";
+      }
+    }
+
+    this.alojamientos.push(oAlojamiento);
+    return `Se ha introducido el alojamiento con ID: ${oAlojamiento.idAlojamiento}`;
 
     //Devuelve str
   }
@@ -232,32 +236,18 @@ class Reserva {
 
   _idReserva;
   _cliente;
-  _alojamientos;
+  _alojamientos = [];
   _fechaInicio;
   _fechaFin;
 
   // Constructor
 
-  constructor(
-    idReserva,
-    cliente,
-    alojamientos,
-    fechaInicio,
-    fechaFin,
-    agencia
-  ) {
-    // Filtrar por alojamientos que no hayan sido reservados anteriormente en las fechas elegidas
-    if (
-      this.checkAlojamiento(alojamientos) &&
-      this.checkFecha(fechaInicio, fechaFin) &&
-      this.checkReservado(agencia, alojamientos)
-    ) {
-      this.idReserva = idReserva;
-      this.cliente = cliente;
-      this.alojamientos = alojamientos;
-      this.fechaInicio = fechaInicio;
-      this.fechaFin = fechaFin;
-    }
+  constructor(idReserva, cliente, alojamientos, fechaInicio, fechaFin) {
+    this.idReserva = idReserva;
+    this.cliente = cliente;
+    this.alojamientos = alojamientos;
+    this.fechaInicio = fechaInicio;
+    this.fechaFin = fechaFin;
   }
 
   // Getters && Setters
@@ -304,7 +294,7 @@ class Reserva {
 
   // Métodos
 
-  //Comprobar alojamiento
+  //Comprobar alojamiento COmprobacuiones movidas a principal
 
   checkAlojamiento() {
     // Comprobamos si algún alojamiento ya está reservado
@@ -448,7 +438,17 @@ class Habitacion extends Alojamiento {
 
   // Métodos
 
-  // Carente ya que llamará al toHTMLRow del padre y este iterará sobre todos los atrib
+  toHTMLRowHabitacion() {
+    return `
+      <tr>
+        <td>${this.idAlojamiento}</td>
+        <td>${this.numPersonas}</td>
+        <td>${this.desayuno}</td> <!-- Solo desayuno para Habitacion -->
+        <td>No disponible</td>
+        <td>No disponible</td>
+      </tr>
+    `;
+  }
 }
 
 class Apartamento extends Alojamiento {
@@ -483,5 +483,17 @@ class Apartamento extends Alojamiento {
     this._dormitorios = dormitorios;
   }
 
-  // Carente ya que llamará al toHTMLRow del padre y este iterará sobre todos los atrib
+  // Métodos
+
+  toHTMLRowApartamento() {
+    return `
+      <tr>
+        <td>${this.idAlojamiento}</td>
+        <td>${this.numPersonas}</td>
+        <td>No disponible</td> <!-- No hay desayuno en Apartamento -->
+        <td>${this.parking}</td> <!-- Solo parking -->
+        <td>${this.dormitorios}</td> <!-- Solo dormitorios -->
+      </tr>
+    `;
+  }
 }

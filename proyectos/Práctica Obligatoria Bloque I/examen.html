@@ -50,12 +50,12 @@
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmListadoCliente');"
+            <a href="#" onclick="gestionFormularios('frmListadoCliente'); listadoClientes()"
               >Listado de clientes</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmListadoAlojamientos');"
+            <a href="#" onclick="gestionFormularios('frmListadoAlojamientos');listadoAlojamientos()"
               >Listado de alojamientos</a
             >
           </li>
@@ -148,6 +148,26 @@
       >
         <fieldset>
           <legend>Alta alojamiento</legend>
+
+          <!-- Campo Selección Tipo de Alojamiento -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="selectTipoAlojamiento"
+              >Tipo de Alojamiento</label
+            >
+            <div class="col-xs-4">
+              <select
+                id="selectTipoAlojamiento"
+                name="selectTipoAlojamiento"
+                class="form-control"
+                onchange="mostrarCampos()"
+              >
+                <option value="">Seleccione...</option>
+                <option value="habitacion">Habitación</option>
+                <option value="apartamento">Apartamento</option>
+              </select>
+            </div>
+          </div>
+
           <!-- Campo ID Alojamiento -->
           <div class="form-group">
             <label class="col-xs-4 control-label" for="txtIdAlojamiento"
@@ -163,6 +183,7 @@
               />
             </div>
           </div>
+
           <!-- Campo Número de Personas -->
           <div class="form-group">
             <label class="col-xs-4 control-label" for="txtNumeroPersonas"
@@ -178,49 +199,9 @@
               />
             </div>
           </div>
-          <!-- Campo para seleccionar Parking (Sí/No) -->
-          <div class="form-group">
-            <label class="col-xs-4 control-label" for="rbtParking"
-              >Parking</label
-            >
-            <div class="col-xs-4">
-              <div class="radio">
-                <input
-                  name="rbtParking"
-                  id="rbtParking-S"
-                  value="S"
-                  type="radio"
-                />
-                <label for="rbtParking-S">Sí</label>
-              </div>
-              <div class="radio">
-                <input
-                  name="rbtParking"
-                  id="rbtParking-N"
-                  value="N"
-                  type="radio"
-                />
-                <label for="rbtParking-N">No</label>
-              </div>
-            </div>
-          </div>
-          <!-- Campo para seleccionar Dormitorios -->
-          <div class="form-group">
-            <label class="col-xs-4 control-label" for="txtDormitorios"
-              >Dormitorios</label
-            >
-            <div class="col-xs-4">
-              <input
-                id="txtDormitorios"
-                name="txtDormitorios"
-                placeholder="Dormitorios"
-                class="form-control input-md"
-                type="text"
-              />
-            </div>
-          </div>
-          <!-- Campo para seleccionar si tiene Desayuno -->
-          <div class="form-group">
+
+          <!-- Campo para seleccionar Desayuno (Solo para Habitación) -->
+          <div class="form-group" id="campoDesayuno" style="display: none">
             <label class="col-xs-4 control-label" for="rbtDesayuno"
               >Desayuno</label
             >
@@ -245,6 +226,50 @@
               </div>
             </div>
           </div>
+
+          <!-- Campo para seleccionar Parking (Solo para Apartamento) -->
+          <div class="form-group" id="campoParking" style="display: none">
+            <label class="col-xs-4 control-label" for="rbtParking"
+              >Parking</label
+            >
+            <div class="col-xs-4">
+              <div class="radio">
+                <input
+                  name="rbtParking"
+                  id="rbtParking-S"
+                  value="S"
+                  type="radio"
+                />
+                <label for="rbtParking-S">Sí</label>
+              </div>
+              <div class="radio">
+                <input
+                  name="rbtParking"
+                  id="rbtParking-N"
+                  value="N"
+                  type="radio"
+                />
+                <label for="rbtParking-N">No</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Campo para seleccionar Dormitorios (Solo para Apartamento) -->
+          <div class="form-group" id="campoDormitorios" style="display: none">
+            <label class="col-xs-4 control-label" for="txtDormitorios"
+              >Dormitorios</label
+            >
+            <div class="col-xs-4">
+              <input
+                id="txtDormitorios"
+                name="txtDormitorios"
+                placeholder="Dormitorios"
+                class="form-control input-md"
+                type="text"
+              />
+            </div>
+          </div>
+
           <!-- Botón para aceptar el alta del alojamiento -->
           <div class="form-group">
             <label
@@ -269,6 +294,21 @@
       <form class="form-horizontal" name="frmAltaReserva" id="frmAltaReserva">
         <fieldset>
           <legend>Alta reserva</legend>
+          <!-- Campo ID Reserva -->
+          <div class="form-group">
+            <label class="col-xs-4 control-label" for="txtIdReserva"
+              >Id Reserva</label
+            >
+            <div class="col-xs-4">
+              <input
+                id="txtIdReserva"
+                name="txtIdReserva"
+                placeholder="Id de reserva"
+                class="form-control input-md"
+                type="text"
+              />
+            </div>
+          </div>
           <!-- Campo DNI Cliente -->
           <div class="form-group">
             <label class="col-xs-4 control-label" for="txtClienteDni"
@@ -293,7 +333,7 @@
               <input
                 id="txtIdAlojamientoReserva"
                 name="txtIdAlojamientoReserva"
-                placeholder="Id del alojamiento"
+                placeholder="Id de alojamiento"
                 class="form-control input-md"
                 type="text"
               />
@@ -382,14 +422,71 @@
         </fieldset>
       </form>
 
-      <!-- Listados de Clientes, Alojamientos y Reservas -->
-      <div id="frmListadoCliente" style="display: none">
-        <!-- Aquí irá el listado de clientes, implementar una tabla con datos -->
-      </div>
+      <!-- Listado de Clientes -->
+      <form
+        class="form-horizontal"
+        name="frmListadoCliente"
+        id="frmListadoCliente"
+      >
+        <fieldset>
+          <legend class="text-center text-primary">Listado de Clientes</legend>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <div class="table-responsive">
+                <table
+                  class="table table-hover table-striped table-bordered table-sm"
+                >
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">DNI Cliente</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Apellido</th>
+                      <th scope="col">Usuario</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tablaClientes">
+                    <!-- Aquí se llenarán las filas con los datos de los clientes -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
 
-      <div id="frmListadoAlojamientos" style="display: none">
-        <!-- Aquí irá el listado de alojamientos, implementar una tabla con datos -->
-      </div>
+      <!-- Listado de Alojamientos -->
+      <form
+        class="form-horizontal"
+        name="frmListadoAlojamientos"
+        id="frmListadoAlojamientos"
+      >
+        <fieldset>
+          <legend class="text-center text-primary">Listado de Alojamientos</legend>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <div class="table-responsive">
+                <table
+                  class="table table-hover table-striped table-bordered table-sm"
+                >
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Id Alojamiento</th>
+                      <th scope="col">Num Personas</th>
+                      <th scope="col">Desayuno</th>
+                      <th scope="col">Parking</th>
+                      <th scope="col">Dormitorio</th>
+
+                    </tr>
+                  </thead>
+                  <tbody id="tablaAlojamientos">
+                    <!-- Aquí se llenarán las filas con los datos de los clientes -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
 
       <div id="frmListadoReservasPorCliente" style="display: none">
         <!-- Aquí irá el listado de reservas por cliente, implementar un formulario de búsqueda -->
