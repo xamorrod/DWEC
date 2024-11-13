@@ -44,13 +44,12 @@ class Agencia {
   // Métodos
 
   altaCliente(oCliente) {
-    console.log(oCliente)
     if (!(oCliente instanceof Cliente)) {
       return "El cliente no es válido";
     }
 
     for (let cliente of this.clientes) {
-      if(oCliente.dniCliente == cliente.dniCliente){
+      if (oCliente.dniCliente == cliente.dniCliente) {
         return "El cliente ya está registrado";
       }
     }
@@ -380,7 +379,6 @@ class Alojamiento {
       this.idAlojamiento = idAlojamiento;
       this.numPersonas = numPersonas;
     }
-    
   }
 
   // Getters && Setters

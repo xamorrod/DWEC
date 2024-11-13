@@ -72,13 +72,6 @@ function gestionFormularios(sFormularioVisible) {
   }
 }
 
-function mostrarAltaArbol() {
-  ocultarTodosLosFormularios();
-
-  // Hacemos visible el formulario
-  frmAltaCliente.style.display = "block";
-}
-
 function ocultarTodosLosFormularios() {
   let oFormularios = document.querySelectorAll("form");
 
@@ -114,13 +107,24 @@ function aceptarAltaAlojamiento() {
   let oAlojamiento;
   const idAlojamiento = document.frmAltaAlojamiento.txtIdAlojamiento.value;
   const numPersonas = document.frmAltaAlojamiento.txtNumeroPersonas.value;
-  const parking = document.frmAltaAlojamiento.rbtParking.checked;
+  const parking = document.querySelector(
+    'input[name="rbtParking"]:checked'
+  )?.value;
+  const desayuno = document.querySelector(
+    'input[name="rbtDesayuno"]:checked'
+  )?.value;
   const dormitorios = document.frmAltaAlojamiento.txtDormitorios.value;
-  const desayuno = document.frmAltaAlojamiento.rbtDesayuno.checked;
-  if (idAlojamiento && numPersonas && desayuno) {
+
+  if (idAlojamiento && numPersonas && desayuno && !parking && !dormitorios) {
     //Habitacion
     oAlojamiento = new Habitacion(idAlojamiento, numPersonas, desayuno);
-  } else if (idAlojamiento && numPersonas && parking && dormitorios) {
+  } else if (
+    idAlojamiento &&
+    numPersonas &&
+    parking &&
+    dormitorios &&
+    !desayuno
+  ) {
     //Apartamento
     oAlojamiento = new Apartamento(
       idAlojamiento,
@@ -137,6 +141,10 @@ function aceptarAltaAlojamiento() {
     frmAltaAlojamiento.reset(); // Vaciamos los campos del formulario
     frmAltaAlojamiento.style.display = "none";
   } else {
-    alert("Alojamiento registrado previamente");
+    alert("Alojamiento no registrado");
   }
+}
+
+function aceptarAltaReserva() {
+  let oReserva;
 }
