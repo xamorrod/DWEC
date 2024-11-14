@@ -50,12 +50,16 @@
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmListadoCliente'); listadoClientes()"
+            <a
+              href="#"
+              onclick="gestionFormularios('frmListadoCliente'); introducirlistadoClientes()"
               >Listado de clientes</a
             >
           </li>
           <li>
-            <a href="#" onclick="gestionFormularios('frmListadoAlojamientos');listadoAlojamientos()"
+            <a
+              href="#"
+              onclick="gestionFormularios('frmListadoAlojamientos');introducirlistadoAlojamientos()"
               >Listado de alojamientos</a
             >
           </li>
@@ -71,6 +75,13 @@
               href="#"
               onclick="gestionFormularios('frmListadoReservasEntreFechas');"
               >Listado reservas entre dos fechas</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              onclick="gestionFormularios('frmListadoHabitacionesDesayuno');"
+              >Listado de Habitaciones con desayuno</a
             >
           </li>
         </ul>
@@ -433,21 +444,9 @@
           <div class="form-group">
             <div class="col-xs-12">
               <div class="table-responsive">
-                <table
-                  class="table table-hover table-striped table-bordered table-sm"
-                >
-                  <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">DNI Cliente</th>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Apellido</th>
-                      <th scope="col">Usuario</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tablaClientes">
-                    <!-- Aquí se llenarán las filas con los datos de los clientes -->
-                  </tbody>
-                </table>
+                <div id="tablaClientes">
+                  <!-- Aquí se llenarán la tabla con los datos de los clientes -->
+                </div>
               </div>
             </div>
           </div>
@@ -461,40 +460,138 @@
         id="frmListadoAlojamientos"
       >
         <fieldset>
-          <legend class="text-center text-primary">Listado de Alojamientos</legend>
+          <legend class="text-center text-primary">
+            Listado de Alojamientos
+          </legend>
           <div class="form-group">
             <div class="col-xs-12">
               <div class="table-responsive">
-                <table
-                  class="table table-hover table-striped table-bordered table-sm"
-                >
-                  <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">Id Alojamiento</th>
-                      <th scope="col">Num Personas</th>
-                      <th scope="col">Desayuno</th>
-                      <th scope="col">Parking</th>
-                      <th scope="col">Dormitorio</th>
-
-                    </tr>
-                  </thead>
-                  <tbody id="tablaAlojamientos">
-                    <!-- Aquí se llenarán las filas con los datos de los clientes -->
-                  </tbody>
-                </table>
+                <div id="tablaAlojamientos">
+                  <!-- Aquí se llenarán la tabla con los datos de los alojamientos -->
+                </div>
               </div>
             </div>
           </div>
         </fieldset>
       </form>
 
-      <div id="frmListadoReservasPorCliente" style="display: none">
-        <!-- Aquí irá el listado de reservas por cliente, implementar un formulario de búsqueda -->
-      </div>
+      <!-- Listado de Reservas por Cliente -->
+      <form
+        class="form-horizontal"
+        name="frmListadoReservasPorCliente"
+        id="frmListadoReservasPorCliente"
+      >
+        <fieldset>
+          <legend class="text-center text-primary">
+            Listado de Reservas por Cliente
+          </legend>
+          <!-- Campo para introducir el ID del cliente -->
+          <div class="form-group">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label class="col-xs-4 control-label" for="clienteID"
+                  >ID Cliente</label
+                >
+                <div class="col-xs-4">
+                  <input
+                    id="clienteID"
+                    name="clienteID"
+                    placeholder="Introduce el ID del Cliente"
+                    class="form-control input-md"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 mt-2 text-center">
+              <!-- Botón para obtener las reservas -->
+              <button
+                type="button"
+                class="btn btn-primary"
+                onclick="introducirlistadoReservaCliente()"
+              >
+                Ver Reservas
+              </button>
+            </div>
+          </div>
 
-      <div id="frmListadoReservasEntreFechas" style="display: none">
-        <!-- Aquí irá el listado de reservas entre fechas, implementar formularios de fecha -->
-      </div>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <div class="table-responsive">
+                <div id="tablaReservasClientes">
+                  <!-- Aquí se llenarán la tabla con los datos de las reservas -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+      <!-- Listado de Reservas por Fecha -->
+      <form
+        class="form-horizontal"
+        name="frmListadoReservasEntreFechas"
+        id="frmListadoReservasEntreFechas"
+      >
+        <fieldset>
+          <legend class="text-center text-primary">
+            Listado de Reservas por Fecha
+          </legend>
+
+          <!-- Campo para introducir las fechas -->
+          <div class="form-group">
+            <!-- Fecha de Salida -->
+            <div class="col-xs-12 col-md-6">
+              <label class="control-label" for="fechaSalida"
+                >Fecha de Salida</label
+              >
+              <input
+                id="fechaSalida"
+                name="fechaSalida"
+                placeholder="Introduce la fecha de salida"
+                class="form-control input-md"
+                type="date"
+              />
+            </div>
+
+            <!-- Fecha de Llegada -->
+            <div class="col-xs-12 col-md-6">
+              <label class="control-label" for="fechaLlegada"
+                >Fecha de Llegada</label
+              >
+              <input
+                id="fechaLlegada"
+                name="fechaLlegada"
+                placeholder="Introduce la fecha de llegada"
+                class="form-control input-md"
+                type="date"
+              />
+            </div>
+          </div>
+
+          <!-- Botón para obtener las reservas -->
+          <div class="col-xs-12 mt-3 text-center">
+            <button
+              type="button"
+              class="btn btn-primary btn-lg"
+              onclick="introducirlistadoFechas()"
+            >
+              Ver reservas entre fechas
+            </button>
+          </div>
+
+          <!-- Contenedor para mostrar las reservas -->
+          <div class="form-group mt-3">
+            <div class="col-xs-12">
+              <div class="table-responsive">
+                <div id="tablaReservasClientesFecha">
+                  <!-- Aquí se llenarán la tabla con los datos de las reservas -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
     </div>
 
     <script src="./objetos.js"></script>

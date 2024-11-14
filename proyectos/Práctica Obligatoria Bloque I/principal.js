@@ -1,6 +1,35 @@
 // Variables globales
 let oAgencia = new Agencia();
 
+let cliente1 = new Cliente("12345678A", "Juan", "Pérez");
+let cliente2 = new Cliente("87654321B", "Ana", "Gómez");
+oAgencia.altaCliente(cliente1);
+oAgencia.altaCliente(cliente2);
+let habitacion1 = new Habitacion(101, 2, true, false, 1);
+let habitacion2 = new Habitacion(102, 4, false, true, 2);
+let apartamento1 = new Apartamento(201, 6, true, false);
+oAgencia.altaAlojamiento(habitacion1);
+oAgencia.altaAlojamiento(habitacion2);
+oAgencia.altaAlojamiento(apartamento1);
+let reserva1 = new Reserva(
+  1,
+  cliente1,
+  [habitacion1, habitacion2],
+  new Date("2024-11-01"),
+  new Date("2024-11-05")
+);
+let reserva2 = new Reserva(
+  2,
+  cliente2,
+  [apartamento1],
+  new Date("2024-11-10"),
+  new Date("2024-11-15")
+);
+
+// Agregar las reservas a la agencia
+oAgencia.altaReserva(reserva1);
+oAgencia.altaReserva(reserva2);
+
 // Mostrar el formulario correspondiente
 function gestionFormularios(sFormularioVisible) {
   ocultarTodosLosFormularios();
@@ -29,6 +58,8 @@ function gestionFormularios(sFormularioVisible) {
     case "frmListadoReservasEntreFechas":
       frmListadoReservasEntreFechas.style.display = "block";
       break;
+    //case "frmListadoHabitacionesDesayuno":
+     
   }
 }
 
@@ -49,22 +80,12 @@ function ocultarTodosLosFormularios() {
   let oFormularios = document.querySelectorAll("form");
   for (let i = 0; i < oFormularios.length; i++) {
     oFormularios[i].style.display = "none";
+    document.getElementById("tablaReservasClientes").innerHTML = "";
+    document.getElementById("tablaReservasClientesFecha").innerHTML = "";
+    ;
   }
 }
 
-//Mostrar o ocultar campos en el alta alojamiento
-
-function mostrarCampos() {
-  const tipoAlojamiento = document.getElementById(
-    "selectTipoAlojamiento"
-  ).value;
-  document.getElementById("campoDesayuno").style.display =
-    tipoAlojamiento === "habitacion" ? "block" : "none";
-  document.getElementById("campoParking").style.display =
-    tipoAlojamiento === "apartamento" ? "block" : "none";
-  document.getElementById("campoDormitorios").style.display =
-    tipoAlojamiento === "apartamento" ? "block" : "none";
-}
 
 //Funcion aceptar alta cliente
 
@@ -81,11 +102,13 @@ function aceptarAltaCliente() {
   oCliente = new Cliente(dniCliente, nombreCliente, apellidoCliente);
 
   const mensaje = oAgencia.altaCliente(oCliente);
-  alert(mensaje);
+
   if (mensaje.includes("correctamente")) {
-    alert("Cliente registrado OK");
+    alert(mensaje);
     frmAltaCliente.reset();
     frmAltaCliente.style.display = "none";
+  } else {
+    alert(mensaje);
   }
 }
 
@@ -317,39 +340,40 @@ function aceptarBajaReserva() {
   }
 }
 
-function listadoClientes() {
-  let salida = "";
-  
-  // Verificamos si hay clientes en el array
-  if (oAgencia.clientes.length > 0) {
-    for (let cliente of oAgencia.clientes) {
-      salida += cliente.toHTMLRow(); // Generamos la fila de cada cliente
-    }
-  } else {
-    salida = "<tr><td colspan='4' class='text-center'>No hay clientes registrados</td></tr>";
-  }
+function introducirlistadoClientes() {
+  let salida = oAgencia.listarClientes();
 
-  // Insertamos las filas generadas en el tbody con id 'tablaClientes'
+  // Insertamos la tabla generadas en el tbody con id 'tablaClientes'
   document.getElementById("tablaClientes").innerHTML = salida;
 }
 
-function listadoAlojamientos(){
-  let salida = "";
+function introducirlistadoAlojamientos() {
+  let salida = oAgencia.listadoAlojamientos();
 
-  if (oAgencia.alojamientos.length > 0) {
-    for (let alojamiento of oAgencia.alojamientos) {
-      if(alojamiento instanceof Habitacion){
-        salida += alojamiento.toHTMLRowHabitacion();
-      }
-      if (alojamiento instanceof Apartamento) {
-        salida += alojamiento.toHTMLRowApartamento();
-      }
-      
-    }
-  } else {
-    salida =
-      "<tr><td colspan='4' class='text-center'>No hay alojamientos registrados</td></tr>";
-  }
-  // Insertamos las filas generadas en el tbody con id 'tablaClientes'
+  // Insertamos la tabla generadas en el tbody con id 'tablaClientes'
   document.getElementById("tablaAlojamientos").innerHTML = salida;
+}
+
+function introducirlistadoReservaCliente() {
+  const idCliente = document.frmListadoReservasPorCliente.clienteID.value;
+  if (idCliente) {
+    let salida = oAgencia.listadoReservasCliente(idCliente);
+    document.getElementById("tablaReservasClientes").innerHTML = salida;
+  } else {
+    alert("Rellena la Id del cliente");
+  }
+}
+
+function introducirlistadoFechas() {
+  const fechaSalida = document.frmListadoReservasEntreFechas.fechaSalida.value;
+  const fechaLlegada =
+    document.frmListadoReservasEntreFechas.fechaLlegada.value;
+
+  if (fechaSalida && fechaLlegada) {
+    // Aquí llamas a la función para obtener las reservas entre las fechas
+    let salida = oAgencia.listadoReservas(fechaSalida, fechaLlegada);
+    document.getElementById("tablaReservasClientesFecha").innerHTML = salida;
+  } else {
+    alert("Por favor, introduce ambas fechas.");
+  }
 }

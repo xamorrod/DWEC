@@ -91,49 +91,136 @@ class Agencia {
     alert("No se ha encontrado la reserva introducida");
   }
 
-  listadoClientes() {
-    //Devuelve HTML table
-    //Obtiene los atrib del objeto usando el metodo de la clase toHTMLRow
-    let salida = "<table><thead>Listado de clientes</thead>";
-    for (let cliente of this.clientes) {
-      salida += cliente.toHTMLRow();
+  listarClientes() {
+    let salida = `<table class="table table-hover table-striped table-bordered table-sm">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">DNI Cliente</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Usuario</th>
+                      </tr>
+                    </thead>
+                    <tbody>`;
+
+    if (this.clientes.length > 0) {
+      for (let cliente of this.clientes) {
+        salida += cliente.toHTMLRow();
+      }
+    } else {
+      salida +=
+        "<tr><td colspan='4' class='text-center'>No hay clientes registrados</td></tr>";
     }
-    salida += "</table>";
+
+    salida += `</tbody></table>`;
     return salida;
   }
 
   listadoAlojamientos() {
-    //Devuelve HTML table
-    let salida = "<table><thead>Listado de alojamientos</thead>";
-    for (let alojamiento of this.alojamientos) {
-      salida += alojamiento.toHTMLRow();
+    let salida = `<table class="table table-hover table-striped table-bordered table-sm">
+                    <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Id Alojamiento</th>
+                      <th scope="col">Num Personas</th>
+                      <th scope="col">Desayuno</th>
+                      <th scope="col">Parking</th>
+                      <th scope="col">Dormitorio</th>
+                    </tr>
+                  </thead>
+                  <tbody>`;
+
+    if (this.alojamientos.length > 0) {
+      for (let alojamiento of this.alojamientos) {
+        if (alojamiento instanceof Habitacion) {
+          salida += alojamiento.toHTMLRowHabitacion();
+        } else if (alojamiento instanceof Apartamento) {
+          salida += alojamiento.toHTMLRowApartamento();
+        }
+      }
+    } else {
+      salida +=
+        "<tr><td colspan='4' class='text-center'>No hay alojamientos registrados</td></tr>";
     }
-    salida += "</table>";
+
+    salida += `</tbody></table>`;
     return salida;
   }
+
   listadoReservas(fechaInicio, fechaFin) {
-    //Devuelve HTML table
-    let salida = "<table><thead>Listado de reservas entre fechas</thead>";
+    // Crear el encabezado de la tabla
+    let salida =
+      "<table class='table table-bordered'><thead><tr><th>ID Reserva</th><th>DNI Cliente</th><th>Alojamientos</th><th>Fecha Inicio</th><th>Fecha Fin</th></tr></thead><tbody>";
+
+    // Convertir las fechas de entrada a formato de cadena (si es necesario)
+    const fechaInicioString = new Date(fechaInicio).toISOString().split("T")[0]; // 'YYYY-MM-DD'
+    const fechaFinString = new Date(fechaFin).toISOString().split("T")[0]; // 'YYYY-MM-DD'
+
+    // Iterar sobre las reservas
     for (let reserva of this.reservas) {
-      if (reserva.fechaInicio == fechaInicio && reserva.fechaFin == fechaFin) {
-        //TODO: Atributos acotados por el enunciado
-        salida += reserva.toHTMLRow();
+      // Asegurarse de que las fechas también están en el formato correcto
+      const reservaFechaInicio = new Date(reserva.fechaInicio)
+        .toISOString()
+        .split("T")[0];
+      const reservaFechaFin = new Date(reserva.fechaFin)
+        .toISOString()
+        .split("T")[0];
+
+      // Comparar las fechas de inicio y fin
+      if (
+        reservaFechaInicio === fechaInicioString &&
+        reservaFechaFin === fechaFinString
+      ) {
+        salida += reserva.toHTMLRow(reserva.cliente.dniCliente); // Agregar la fila correspondiente
       }
     }
-    salida += "</table>";
+
+    // Cerrar la tabla
+    salida += "</tbody></table>";
+
     return salida;
   }
   listadoReservasCliente(dniCliente) {
-    //Devuelve HTML table
-    let salida = "<table><thead>Listado de reservas de un cliente</thead>";
+    // Comienza la estructura HTML de la tabla
+    let salida = `
+      <table class="table table-hover table-striped table-bordered table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID Reserva</th>
+            <th scope="col">DNI Cliente</th>
+            <th scope="col">Alojamientos</th>
+            <th scope="col">Fecha de Inicio de Reserva</th>
+            <th scope="col">Fecha de Fin de Reserva</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    // Variable para verificar si se encontró alguna reserva
+    let reservasEncontradas = false;
+
+    // Recorremos las reservas para mostrar solo las del cliente específico
     for (let reserva of this.reservas) {
-      if (reserva.cliente.dniCliente == dniCliente) {
-        salida += reserva.toHTMLRow();
+      if (reserva.cliente.dniCliente === dniCliente) {
+        reservasEncontradas = true;
+        salida += reserva.toHTMLRow(dniCliente); // Generamos la fila de cada reserva
       }
     }
-    salida += "</table>";
+
+    // Si no se encontraron reservas, mostramos un mensaje en la tabla
+    if (!reservasEncontradas) {
+      salida += `
+        <tr>
+          <td colspan="4" class="text-center">No se encontraron reservas para este cliente.</td>
+        </tr>
+      `;
+    }
+
+    // Cerramos la tabla
+    salida += `</tbody></table>`;
+
     return salida;
   }
+
   listadoHabitacionesConDesayuno() {
     //Devuelve HTML table
     const listaAlojamientos = [];
@@ -343,14 +430,23 @@ class Reserva {
     return true;
   }
 
-  toHTMLRow() {
-    let valores = Object.values(this);
-    let salida = "<tr>";
-    for (let valor of valores) {
-      salida += "<td>" + valor + "</td>";
+  toHTMLRow(dniCliente) {
+    let conjuntoAlojamientos = " ";
+    for (let alojamiento of this.alojamientos) {
+      conjuntoAlojamientos += alojamiento.idAlojamiento + " ";
     }
-    salida += "</tr>";
-    return salida;
+
+    return `
+    <tr>
+      <td>${this.idReserva}</td>
+      <td>${dniCliente}</td>
+      <td>
+        <ul>${conjuntoAlojamientos.trim()}</ul>
+      </td>
+      <td>${new Date(this.fechaInicio).toLocaleDateString()}</td>
+      <td>${new Date(this.fechaFin).toLocaleDateString()}</td>
+    </tr>
+  `;
   }
 }
 
