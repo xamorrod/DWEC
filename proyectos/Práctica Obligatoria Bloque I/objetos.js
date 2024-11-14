@@ -1,6 +1,7 @@
 //Implementación de clases necesarias para el programa Franquicia Dos Hermanas
 
 class Agencia {
+
   //Atributos
 
   _clientes;
@@ -70,19 +71,21 @@ class Agencia {
     this.alojamientos.push(oAlojamiento);
     return `Se ha introducido el alojamiento con ID: ${oAlojamiento.idAlojamiento}`;
 
-    //Devuelve str
+    
   }
   altaReserva(oReserva) {
-    //Devuelve str
+    
     if (oReserva instanceof Reserva && !this.reservas.includes(oReserva)) {
       this.reservas.push(oReserva);
       return `Se ha introducido la reserva con ID: ${oReserva.idReserva}`;
     }
   }
   bajaReserva(idReserva) {
-    //Devuelve str
+    
     for (let reserva of this.reservas) {
+
       //Buscamos la ocurrencia de la id para poder dar de baja ese objeto reserva y sacarlo del array
+
       if (reserva.idReserva == idReserva) {
         this.reservas.pop(reserva);
         return `Se ha eliminado la reserva con ID: ${reserva.idReserva}`;
@@ -147,17 +150,18 @@ class Agencia {
   }
 
   listadoReservas(fechaInicio, fechaFin) {
-    // Crear el encabezado de la tabla
+    
     let salida =
       "<table class='table table-bordered'><thead><tr><th>ID Reserva</th><th>DNI Cliente</th><th>Alojamientos</th><th>Fecha Inicio</th><th>Fecha Fin</th></tr></thead><tbody>";
 
     // Convertir las fechas de entrada a formato de cadena (si es necesario)
+
     const fechaInicioString = new Date(fechaInicio).toISOString().split("T")[0]; // 'YYYY-MM-DD'
     const fechaFinString = new Date(fechaFin).toISOString().split("T")[0]; // 'YYYY-MM-DD'
 
-    // Iterar sobre las reservas
+    
     for (let reserva of this.reservas) {
-      // Asegurarse de que las fechas también están en el formato correcto
+      
       const reservaFechaInicio = new Date(reserva.fechaInicio)
         .toISOString()
         .split("T")[0];
@@ -170,17 +174,18 @@ class Agencia {
         reservaFechaInicio === fechaInicioString &&
         reservaFechaFin === fechaFinString
       ) {
-        salida += reserva.toHTMLRow(reserva.cliente.dniCliente); // Agregar la fila correspondiente
+        salida += reserva.toHTMLRow(reserva.cliente.dniCliente); 
       }
     }
 
-    // Cerrar la tabla
+    
     salida += "</tbody></table>";
 
     return salida;
   }
+
   listadoReservasCliente(dniCliente) {
-    // Comienza la estructura HTML de la tabla
+    
     let salida = `
       <table class="table table-hover table-striped table-bordered table-sm">
         <thead class="thead-dark">
@@ -195,18 +200,20 @@ class Agencia {
         <tbody>
     `;
 
-    // Variable para verificar si se encontró alguna reserva
+    
     let reservasEncontradas = false;
 
     // Recorremos las reservas para mostrar solo las del cliente específico
+
     for (let reserva of this.reservas) {
       if (reserva.cliente.dniCliente === dniCliente) {
         reservasEncontradas = true;
-        salida += reserva.toHTMLRow(dniCliente); // Generamos la fila de cada reserva
+        salida += reserva.toHTMLRow(dniCliente); 
       }
     }
 
     // Si no se encontraron reservas, mostramos un mensaje en la tabla
+
     if (!reservasEncontradas) {
       salida += `
         <tr>
@@ -215,39 +222,63 @@ class Agencia {
       `;
     }
 
-    // Cerramos la tabla
+    
     salida += `</tbody></table>`;
 
     return salida;
   }
 
   listadoHabitacionesConDesayuno() {
-    //Devuelve HTML table
+
+    // Devuelve HTML table
+
     const listaAlojamientos = [];
-    let salida =
-      "<table><thead>Listado de habitaciones con desayuno incluido</thead>";
+    let salida = `
+      <table class="table table-hover table-striped table-bordered table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID Habitación</th>
+            <th scope="col">Número de personas</th>
+            <th scope="col">Desayuno</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    // Filtrar habitaciones con desayuno
+
     for (let alojamiento of this.alojamientos) {
-      if (alojamiento instanceof Habitacion && alojamiento.desayuno == true) {
+
+      //Añadimo la segunda cláusula por si el usuario introduce el objeto habitación a través de código o a través de la web
+      if (alojamiento instanceof Habitacion && (alojamiento.desayuno === true || alojamiento.desayuno == "S")) {
         listaAlojamientos.push(alojamiento);
       }
     }
+
+    // Ordenar habitaciones
     const listadoOrdenado = listaAlojamientos.sort((a, b) => {
-      if (a.numPersonas == b.numPersonas) {
+      if (a.numPersonas === b.numPersonas) {
         return a.idAlojamiento - b.idAlojamiento;
       }
       return b.numPersonas - a.numPersonas;
     });
 
-    for (let alojamiento of listadoOrdenado) {
-      salida += alojamiento.toHTMLRow();
-    }
-    salida += "</table>";
+    // Generar filas de la tabla
+    listadoOrdenado.forEach((alojamiento) => {
+      salida += alojamiento.toHTMLRowHabitacion(false);
+    });
+
+    salida += `
+        </tbody>
+      </table>
+    `;
     return salida;
   }
 }
-
 class Cliente {
+
   // Atributos
+
   _dniCliente;
   _nombre;
   _apellidos;
@@ -319,6 +350,7 @@ class Cliente {
 }
 
 class Reserva {
+
   // Atributos
 
   _idReserva;
@@ -381,10 +413,11 @@ class Reserva {
 
   // Métodos
 
-  //Comprobar alojamiento COmprobacuiones movidas a principal
 
   checkAlojamiento() {
+
     // Comprobamos si algún alojamiento ya está reservado
+
     const alojamientosUnicos = this.alojamientos.filter(
       (alojamiento, index, self) =>
         self.findIndex((a) => a.idAlojamiento === alojamiento.idAlojamiento) ===
@@ -402,7 +435,9 @@ class Reserva {
   //Comprobar si no esta reservado
 
   checkReservado(agencia, alojamientos) {
+
     //Lógica que checkea si cada alojamiento pertenece a otra reserva o no
+
     for (let reserva of agencia.reservas) {
       for (let alojamiento of reserva.alojamientos) {
         if (
@@ -410,6 +445,7 @@ class Reserva {
             (al) => al.idAlojamiento === alojamiento.idAlojamiento
           )
         ) {
+
           // Hemos encontrado una ocurrencia en la que se está intentando repetir
           alert("Alojamiento ya reservado en esas fechas");
           return false;
@@ -451,6 +487,7 @@ class Reserva {
 }
 
 class Alojamiento {
+
   // Atributos
 
   _idAlojamiento;
@@ -511,6 +548,7 @@ class Alojamiento {
 }
 
 class Habitacion extends Alojamiento {
+
   // Atributos
 
   _desayuno;
@@ -534,20 +572,26 @@ class Habitacion extends Alojamiento {
 
   // Métodos
 
-  toHTMLRowHabitacion() {
+  //Lo redefinimos para que, llamándolo por defecto tenga los no disponible pero
+  // si se llama pasandole como arg false omite estos últimos datos
+  toHTMLRowHabitacion(mostrarCeldasExtras = true) {
     return `
-      <tr>
-        <td>${this.idAlojamiento}</td>
-        <td>${this.numPersonas}</td>
-        <td>${this.desayuno}</td> <!-- Solo desayuno para Habitacion -->
-        <td>No disponible</td>
-        <td>No disponible</td>
-      </tr>
-    `;
+    <tr>
+      <td>${this.idAlojamiento}</td>
+      <td>${this.numPersonas}</td>
+      <td>${this.desayuno ? "Sí" : "No"}</td>
+      ${
+        mostrarCeldasExtras
+          ? "<td>No disponible</td><td>No disponible</td>"
+          : ""
+      }
+    </tr>
+  `;
   }
 }
 
 class Apartamento extends Alojamiento {
+  
   // Atributos
 
   _parking;

@@ -1,34 +1,38 @@
 // Variables globales
 let oAgencia = new Agencia();
 
-let cliente1 = new Cliente("12345678A", "Juan", "Pérez");
-let cliente2 = new Cliente("87654321B", "Ana", "Gómez");
-oAgencia.altaCliente(cliente1);
-oAgencia.altaCliente(cliente2);
-let habitacion1 = new Habitacion(101, 2, true, false, 1);
-let habitacion2 = new Habitacion(102, 4, false, true, 2);
-let apartamento1 = new Apartamento(201, 6, true, false);
-oAgencia.altaAlojamiento(habitacion1);
-oAgencia.altaAlojamiento(habitacion2);
-oAgencia.altaAlojamiento(apartamento1);
-let reserva1 = new Reserva(
-  1,
-  cliente1,
-  [habitacion1, habitacion2],
-  new Date("2024-11-01"),
-  new Date("2024-11-05")
-);
-let reserva2 = new Reserva(
-  2,
-  cliente2,
-  [apartamento1],
-  new Date("2024-11-10"),
-  new Date("2024-11-15")
-);
+// Función datos de prueba, puede llamarse para no tener que introducir datos manualmente
 
-// Agregar las reservas a la agencia
-oAgencia.altaReserva(reserva1);
-oAgencia.altaReserva(reserva2);
+function datosPrueba() {
+  let cliente1 = new Cliente("12345678A", "Juan", "Pérez");
+  let cliente2 = new Cliente("87654321B", "Ana", "Gómez");
+  oAgencia.altaCliente(cliente1);
+  oAgencia.altaCliente(cliente2);
+  let habitacion1 = new Habitacion(101, 2, true, false, 1);
+  let habitacion2 = new Habitacion(102, 4, false, true, 2);
+  let apartamento1 = new Apartamento(201, 6, true, false);
+  oAgencia.altaAlojamiento(habitacion1);
+  oAgencia.altaAlojamiento(habitacion2);
+  oAgencia.altaAlojamiento(apartamento1);
+  let reserva1 = new Reserva(
+    1,
+    cliente1,
+    [habitacion1, habitacion2],
+    new Date("2024-11-01"),
+    new Date("2024-11-05")
+  );
+  let reserva2 = new Reserva(
+    2,
+    cliente2,
+    [apartamento1],
+    new Date("2024-11-10"),
+    new Date("2024-11-15")
+  );
+
+  // Agregar las reservas a la agencia
+  oAgencia.altaReserva(reserva1);
+  oAgencia.altaReserva(reserva2);
+}
 
 // Mostrar el formulario correspondiente
 function gestionFormularios(sFormularioVisible) {
@@ -58,8 +62,10 @@ function gestionFormularios(sFormularioVisible) {
     case "frmListadoReservasEntreFechas":
       frmListadoReservasEntreFechas.style.display = "block";
       break;
-    //case "frmListadoHabitacionesDesayuno":
-     
+    case "frmListadoHabitacionesDesayuno":
+      frmListadoHabitacionesDesayuno.style.display = "block";
+      break;
+    
   }
 }
 
@@ -82,12 +88,10 @@ function ocultarTodosLosFormularios() {
     oFormularios[i].style.display = "none";
     document.getElementById("tablaReservasClientes").innerHTML = "";
     document.getElementById("tablaReservasClientesFecha").innerHTML = "";
-    ;
   }
 }
 
-
-//Funcion aceptar alta cliente
+//-----------------Funcion aceptar alta cliente--------------------------
 
 function aceptarAltaCliente() {
   let oCliente;
@@ -111,6 +115,8 @@ function aceptarAltaCliente() {
     alert(mensaje);
   }
 }
+
+//-----------------Funcion aceptar alta alojamiento--------------------------
 
 function aceptarAltaAlojamiento() {
   let oAlojamiento;
@@ -149,13 +155,15 @@ function aceptarAltaAlojamiento() {
   const mensaje = oAgencia.altaAlojamiento(oAlojamiento);
   if (mensaje.includes("ID")) {
     alert(mensaje);
-    frmAltaAlojamiento.reset(); // Vaciamos los campos del formulario
+    frmAltaAlojamiento.reset(); 
     frmAltaAlojamiento.style.display = "none";
   } else {
     //Mensaje de salida si coindice con uno ya creado en el metodo altaAlojamiento
     alert(mensaje);
   }
 }
+
+//-----------------Funcion aceptar alta reserva--------------------------
 
 function aceptarAltaReserva() {
   let oReserva;
@@ -250,7 +258,7 @@ function aceptarAltaReserva() {
   const mensaje = oAgencia.altaReserva(oReserva);
   if (mensaje.includes("ID")) {
     alert(mensaje);
-    frmAltaReserva.reset(); // Vaciamos los campos del formulario
+    frmAltaReserva.reset(); 
     frmAltaReserva.style.display = "none";
   } else {
     // Si no se puede realizar la reserva, mostramos el mensaje de error
@@ -313,6 +321,8 @@ function obtenerClientePorDni(dniCliente) {
   );
 }
 
+//-----------------Funcion aceptar baja reserva--------------------------
+
 function aceptarBajaReserva() {
   const idReserva = document.frmBajaReserva.txtIdReservaEliminar.value;
 
@@ -340,21 +350,29 @@ function aceptarBajaReserva() {
   }
 }
 
-function introducirlistadoClientes() {
-  let salida = oAgencia.listarClientes();
+//-----------------Funcion introducir lista clientes --------------------------
+// esta función implementa la lógica de la clase Agencia y se encarga de introducir dicha lista en el HTML
 
-  // Insertamos la tabla generadas en el tbody con id 'tablaClientes'
+function introducirlistadoClientes() {
+
+  let salida = oAgencia.listarClientes();
   document.getElementById("tablaClientes").innerHTML = salida;
 }
 
-function introducirlistadoAlojamientos() {
-  let salida = oAgencia.listadoAlojamientos();
+//-----------------Funcion introducir lista alojamientos --------------------------
+// esta función implementa la lógica de la clase Agencia y se encarga de introducir dicha lista en el HTML
 
-  // Insertamos la tabla generadas en el tbody con id 'tablaClientes'
+function introducirlistadoAlojamientos() {
+
+  let salida = oAgencia.listadoAlojamientos();
   document.getElementById("tablaAlojamientos").innerHTML = salida;
 }
 
+//-----------------Funcion introducir lista reserva por cliente --------------------------
+// esta función implementa la lógica de la clase Agencia y se encarga de introducir dicha lista en el HTML
+
 function introducirlistadoReservaCliente() {
+
   const idCliente = document.frmListadoReservasPorCliente.clienteID.value;
   if (idCliente) {
     let salida = oAgencia.listadoReservasCliente(idCliente);
@@ -364,7 +382,11 @@ function introducirlistadoReservaCliente() {
   }
 }
 
+//-----------------Funcion introducir lista reserva entre fechas--------------------------
+// esta función implementa la lógica de la clase Agencia y se encarga de introducir dicha lista en el HTML
+
 function introducirlistadoFechas() {
+
   const fechaSalida = document.frmListadoReservasEntreFechas.fechaSalida.value;
   const fechaLlegada =
     document.frmListadoReservasEntreFechas.fechaLlegada.value;
@@ -376,4 +398,13 @@ function introducirlistadoFechas() {
   } else {
     alert("Por favor, introduce ambas fechas.");
   }
+}
+
+//-----------------Funcion introducir lista hoteles con desayuno ordenada --------------------------
+// esta función implementa la lógica de la clase Agencia y se encarga de introducir dicha lista en el HTML
+
+function introducirlistadoHotelesDesayuno() {
+
+  let salida = oAgencia.listadoHabitacionesConDesayuno();
+  document.getElementById("tablaHotelesDesayuno").innerHTML = salida;
 }

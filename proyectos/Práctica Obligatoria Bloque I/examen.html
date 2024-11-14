@@ -19,10 +19,24 @@
       #formularios {
         margin-top: 60px;
       }
+      /* Estilo del distintivo */
+      #distintivo {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #28a745;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+        font-size: 16px;
+      }
     </style>
   </head>
 
-  <body>
+  <body onload="mostrarDistintivo()">
+    <!-- Distintivo al cargar la aplicación -->
+
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -80,14 +94,30 @@
           <li>
             <a
               href="#"
-              onclick="gestionFormularios('frmListadoHabitacionesDesayuno');"
+              onclick="gestionFormularios('frmListadoHabitacionesDesayuno');introducirlistadoHotelesDesayuno()"
               >Listado de Habitaciones con desayuno</a
             >
           </li>
         </ul>
       </div>
     </nav>
-
+    <div
+      id="distintivo"
+      style="
+        display: none;
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        z-index: 9999;
+      "
+    >
+      ¡Bienvenido a la aplicación Inmobiliaria!
+    </div>
     <div class="container-fluid" id="formularios">
       <!-- Formulario de Alta Cliente -->
       <form class="form-horizontal" name="frmAltaCliente" id="frmAltaCliente">
@@ -592,8 +622,43 @@
           </div>
         </fieldset>
       </form>
-    </div>
 
+      <!-- Listado de Habitaciones de hoteles con desayuno ordenadas -->
+      <form
+        class="form-horizontal"
+        name="frmListadoHabitacionesDesayuno"
+        id="frmListadoHabitacionesDesayuno"
+      >
+        <fieldset>
+          <legend class="text-center text-primary">
+            Listado de habitaciones con desayuno
+          </legend>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <div class="table-responsive">
+                <div id="tablaHotelesDesayuno">
+                  <!-- Aquí se llenarán la tabla con los datos de los clientes -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <script>
+      // Función que muestra el distintivo al cargar la página
+      function mostrarDistintivo() {
+        setTimeout(function () {
+          // Muestra el distintivo después de 1 segundo
+          document.getElementById("distintivo").style.display = "block";
+
+          setTimeout(function () {
+            // Lo oculta después de 3 segundos
+            document.getElementById("distintivo").style.display = "none";
+          }, 3000); // El distintivo se oculta después de 3 segundos
+        }, 1000); // El distintivo aparece 1 segundo después de cargar la página
+      }
+    </script>
     <script src="./objetos.js"></script>
     <script src="./principal.js"></script>
   </body>
