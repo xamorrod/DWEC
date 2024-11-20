@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Formularios</title>
+
+    <style type="text/css">
+      body {
+        margin-left: 10px;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 8px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .form-group button,
+      .form-group input[type="button"] {
+        padding: 10px 20px;
+        font-size: 1em;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .form-group button:hover,
+      .form-group input[type="button"]:hover {
+        background-color: #0056b3;
+      }
+
+      .radio {
+        margin-bottom: 10px;
+      }
+
+      .radio label {
+        margin-left: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Formularios</h1>
+    <form class="form-horizontal" name="frmAltaMascota" id="frmAltaMascota">
+      <fieldset>
+        <legend>Alta de mascota</legend>
+        <div class="form-group">
+          <label for="txtIdMascota">IdMascota</label>
+          <input
+            id="txtIdMascota"
+            name="txtIdMascota"
+            placeholder="IdMascota"
+            type="text"
+          />
+        </div>
+        <div class="form-group">
+          <label for="txtPeso">Peso</label>
+          <input id="txtPeso" name="txtPeso" placeholder="Peso" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="rbtTipoMascota">Tipo mascota</label>
+          <div class="radio">
+            <input
+              name="rbtTipoMascota-G"
+              id="rbtTipoMascota-G"
+              value="gato"
+              checked="checked"
+              type="radio"
+            />
+            <label for="rbtTipoMascota-G">Gato</label>
+          </div>
+          <div class="radio">
+            <input
+              name="rbtTipoMascota-P"
+              id="rbtTipoMascota-P"
+              value="perro"
+              type="radio"
+            />
+            <label for="rbtTipoMascota-P">Perro</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtAltura">Altura perro</label>
+          <input
+            id="txtAltura"
+            name="txtAltura"
+            placeholder="Altura perro"
+            type="text"
+          />
+        </div>
+        <div class="form-group">
+          <label for="txtRaza">Raza gato</label>
+          <input
+            id="txtRaza"
+            name="txtRaza"
+            placeholder="Raza gato"
+            type="text"
+          />
+        </div>
+        <div class="form-group">
+          <button id="btnAceptarAltaMascosta" name="btnAceptarAltaMascota" onclick="aceptarAltaMascota()">
+            Aceptar
+          </button>
+        </div>
+      </fieldset>
+    </form>
+
+    <form
+      class="form-horizontal"
+      name="frmAltaColaborador"
+      id="frmAltaColaborador"
+    >
+      <fieldset>
+        <legend>Alta de colaborador</legend>
+        <div class="form-group">
+          <label for="txtDNI">DNI</label>
+          <input id="txtDNI" name="txtDNI" placeholder="DNI" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="txtNombre">Nombre</label>
+          <input
+            id="txtNombre"
+            name="txtNombre"
+            placeholder="Nombre"
+            type="text"
+          />
+        </div>
+        <div class="form-group">
+          <label for="txtApellidos">Apellidos</label>
+          <input
+            id="txtApellidos"
+            name="txtApellidos"
+            placeholder="Apellidos"
+            type="text"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="button"
+            id="btnAceptarAltaColaborador"
+            name="btnAceptarAltaColaborador"
+            value="Aceptar"
+            
+          />
+        </div>
+      </fieldset>
+    </form>
+
+    <form
+      class="form-horizontal"
+      name="frmMovimientoMascota"
+      id="frmMovimientoMascota"
+    >
+      <fieldset>
+        <legend>Movimiento de mascota</legend>
+        <div class="form-group">
+          <label for="rbtTipoMovimiento">Tipo movimiento</label>
+          <div class="radio">
+            <input
+              name="rbtTipoMovimiento"
+              id="rbtTipoMovimiento-E"
+              value="E"
+              checked="checked"
+              type="radio"
+            />
+            <label for="rbtTipoMovimiento-E">Entrega</label>
+          </div>
+          <div class="radio">
+            <input
+              name="rbtTipoMovimiento"
+              id="rbtTipoMovimiento-R"
+              value="R"
+              type="radio"
+            />
+            <label for="rbtTipoMovimiento-R">Recogida</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="txtIdMascotaMovimiento">IdMascota</label>
+          <input
+            id="txtIdMascotaMovimiento"
+            name="txtIdMascotaMovimiento"
+            placeholder="IdMascota"
+            type="text"
+          />
+        </div>
+        <div class="form-group">
+          <label for="txtDNIMovimiento">DNI</label>
+          <input
+            id="txtDNIMovimiento"
+            name="txtDNIMovimiento"
+            placeholder="DNI"
+            type="text"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="button"
+            id="btnAceptarMovimiento"
+            name="btnAceptarMovimiento"
+            value="Aceptar"
+          />
+        </div>
+      </fieldset>
+    </form>
+    <script src="./js/objetos.js"></script>
+    <script src="./js/codigo.js"></script>
+  </body>
+</html>

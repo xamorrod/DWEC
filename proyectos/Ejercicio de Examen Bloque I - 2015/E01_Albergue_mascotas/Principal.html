@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Albergue de mascotas</title>
+
+    <style>
+      /* Estilos para crear un layout en dos columnas */
+      #principal {
+        display: flex;
+        height: 100vh;
+      }
+
+      #acciones {
+        width: 20%;
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-right: 2px solid #ddd;
+      }
+
+      #formularios {
+        width: 80%;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="principal">
+      <!-- Panel de acciones -->
+      <div id="acciones">
+        <iframe src="acciones.html" name="acciones" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+
+      <!-- Panel de formularios -->
+      <div id="formularios">
+        <iframe src="formularios.html" name="formularios" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+    </div>
+  </body>
+</html>
