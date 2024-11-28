@@ -630,7 +630,7 @@ class Apartamento extends Alojamiento {
       <tr>
         <td>${this.idAlojamiento}</td>
         <td>${this.numPersonas}</td>
-        <td>No disponible</td> <!-- No hay desayuno en Apartamento -->
+        <td>No disponiblfe</td> <!-- No hay desayuno en Apartamento -->
         <td>${this.parking}</td> <!-- Solo parking -->
         <td>${this.dormitorios}</td> <!-- Solo dormitorios -->
       </tr>
