@@ -17,4 +17,4 @@ function pasarDerecha() {
   //usando append
 }
 
-function pasarIzquierda() {}
+function pasarIzquierda() {}  
