@@ -7,7 +7,8 @@ document.getElementById("submit").onclick = function () {
         .value;
     const apellido2 = document.getElementById("lastName2")
         .value;
-    const telefono = Number(document.getElementById("telefono").value);
+    const telefono = document.getElementById("telefono")
+        .value;
     const fechaNacimiento = new Date(document.getElementById("fechaNacimiento").value);
     const email = document.getElementById("email").value;
     const password = document.getElementById("password")

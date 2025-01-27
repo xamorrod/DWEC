@@ -8,9 +8,8 @@ document.getElementById("submit").onclick = function () {
     .value;
   const apellido2 = (document.getElementById("lastName2") as HTMLInputElement)
     .value;
-  const telefono = Number(
-    (document.getElementById("telefono") as HTMLInputElement).value
-  );
+  const telefono = (document.getElementById("telefono") as HTMLInputElement)
+    .value;
 
   const fechaNacimiento = new Date(
     (document.getElementById("fechaNacimiento") as HTMLInputElement).value
