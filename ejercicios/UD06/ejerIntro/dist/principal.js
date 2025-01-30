@@ -18,9 +18,11 @@ document.getElementById("submit").onclick = function () {
 };
 // Añadir un li a la secciópn del html cada vez que se añade un alumno
 function añadirAlumno(alumno) {
-    const contenedor = document.getElementById("output");
     //Creo un nuevo alumno y lo añadimos a la lista
-    const nuevoParrafo = document.createElement("li");
-    nuevoParrafo.textContent = `${alumno.apellido1}`;
-    contenedor.appendChild(nuevoParrafo);
+    if (alumno != undefined || alumno != null) {
+        const contenedor = document.getElementById("output");
+        const nuevoParrafo = document.createElement("div");
+        nuevoParrafo.textContent = `${alumno.nombre} ${alumno.apellido1} ${alumno.apellido2} ${alumno.telefono} ${alumno.fechaNacimiento} ${alumno.email} ${alumno.password}`;
+        contenedor.appendChild(nuevoParrafo);
+    }
 }
