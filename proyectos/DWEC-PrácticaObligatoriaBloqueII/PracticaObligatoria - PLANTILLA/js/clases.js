@@ -1,200 +1,202 @@
 const categorias = [];
 
 class Producto {
-     
-    // Atributos
+  // Atributos
 
-    idProducto;
-    nombreProducto;
-    precioUnidad;
-    idCategoria;
+  idProducto;
+  nombreProducto;
+  precioUnidad;
+  idCategoria;
 
-    // Constructor
+  // Constructor
 
-    constructor(idProducto, nombreProducto, precioUnidad, idCategoria) {
-        this.idProducto = idProducto;
-        this.nombreProducto = nombreProducto;
-        this.precioUnidad = precioUnidad;
-        this.idCategoria = idCategoria;
-    }
+  constructor(idProducto, nombreProducto, precioUnidad, idCategoria) {
+    this.idProducto = idProducto;
+    this.nombreProducto = nombreProducto;
+    this.precioUnidad = precioUnidad;
+    this.idCategoria = idCategoria;
+  }
 
-    // Getters && Setters
+  // Getters && Setters
 
-    getIdProducto() {
-        return this.idProducto;
-    }
+  getIdProducto() {
+    return this.idProducto;
+  }
 
-    setIdProducto(idProducto) {
-        this.idProducto = idProducto;
-    }
+  setIdProducto(idProducto) {
+    this.idProducto = idProducto;
+  }
 
-    getNombreProducto() {
-        return this.nombreProducto;
-    }
+  getNombreProducto() {
+    return this.nombreProducto;
+  }
 
-    setNombreProducto(nombreProducto) {
-        this.nombreProducto = nombreProducto;
-    }
+  setNombreProducto(nombreProducto) {
+    this.nombreProducto = nombreProducto;
+  }
 
-    getPrecioUnidad() {
-        return this.precioUnidad;
-    }
+  getPrecioUnidad() {
+    return this.precioUnidad;
+  }
 
-    setPrecioUnidad(precioUnidad) {
-        this.precioUnidad = precioUnidad;
-    }
+  setPrecioUnidad(precioUnidad) {
+    this.precioUnidad = precioUnidad;
+  }
 
-    getIdCategoria() {
-        return this.idCategoria;
-    }
+  getIdCategoria() {
+    return this.idCategoria;
+  }
 
-    setIdCategoria(idCategoria) {
-        this.idCategoria = idCategoria;
-    }
+  setIdCategoria(idCategoria) {
+    this.idCategoria = idCategoria;
+  }
 
-    // Métodos
-
+  // Métodos
 }
 
 class Catalogo {
+  // Atributos
 
-    // Atributos
+  // Con un objeto de esta clase representamos el cojunto de productos que ofrecemos a los clientes
 
-    productos = [];
+  // Contiene los objetos de la clase Producto
+  productos = [];
 
-    // Getters && Setters
+  // Getters && Setters
 
-    getProductos() {
-        return this.productos;
-    }
+  getProductos() {
+    return this.productos;
+  }
 
-    setProductos(productos) {
-        this.productos = productos;
-    }
+  setProductos(productos) {
+    this.productos = productos;
+  }
 
-    // Métodos
+  // Métodos
 
-    addProducto(idProducto, nombreProducto, precioUnidad, idCategoria) {
-        let producto = new Producto(idProducto, nombreProducto, precioUnidad, idCategoria);
-        this.productos.push(producto);
-    }
+  // Añade un producto al catálogo
+  addProducto(idProducto, nombreProducto, precioUnidad, idCategoria) {
+    const producto = new Producto(
+      idProducto,
+      nombreProducto,
+      precioUnidad,
+      idCategoria
+    );
+    this.productos.push(producto);
+  }
 }
 
 class LineaCuenta {
-    
-    // Atributos
+  // Atributos
 
-    unidades;
-    idProducto;
+  // Cada objeto representa una línea del pedido
+  unidades;
+  idProducto;
 
-    // Getteres && Setters
+  // Getteres && Setters
 
-    getUnidades() {
-        return this.unidades;
-    }
+  getUnidades() {
+    return this.unidades;
+  }
 
-    setUnidades(unidades) {
-        this.unidades = unidades;
-    }
+  setUnidades(unidades) {
+    this.unidades = unidades;
+  }
 
-    getIdProducto() {
-        return this.idProducto;
-    }
+  getIdProducto() {
+    return this.idProducto;
+  }
 
-    setIdProducto(idProducto) {
-        this.idProducto = idProducto;
-    }
+  setIdProducto(idProducto) {
+    this.idProducto = idProducto;
+  }
 
-    // Constructor
+  // Constructor
 
-    constructor(unidades, idProducto) {
-        this.unidades = unidades;
-        this.idProducto = idProducto;
-    }
+  constructor(unidades, idProducto) {
+    this.unidades = unidades;
+    this.idProducto = idProducto;
+  }
 
-    // Métodos
-
-
+  // Métodos
 }
 
 class Cuenta {
+  // Atributos
 
-    // Atributos
+  // Cada objeto de esta clase representa la cuenta abierta de una determinada mesa
+  mesa;
+  lineasdeCuenta = [];
+  pagada;
 
-    mesa;
-    lineasdeCuenta = [];
-    pagada;
+  // Getters && Setters
 
-    // Getters && Setters
+  getMesa() {
+    return this.mesa;
+  }
 
-    getMesa() {
-        return this.mesa;
-    }
+  setMesa(mesa) {
+    this.mesa = mesa;
+  }
 
-    setMesa(mesa) {
-        this.mesa = mesa;
-    }
+  getLineasdeCuenta() {
+    return this.lineasdeCuenta;
+  }
 
-    getLineasdeCuenta() {
-        return this.lineasdeCuenta;
-    }
+  setLineasdeCuenta(lineasdeCuenta) {
+    this.lineasdeCuenta = lineasdeCuenta;
+  }
 
-    setLineasdeCuenta(lineasdeCuenta) {
-        this.lineasdeCuenta = lineasdeCuenta;
-    }
+  getPagada() {
+    return this.pagada;
+  }
 
-    getPagada() {
-        return this.pagada;
-    }
+  setPagada(pagada) {
+    this.pagada = pagada;
+  }
 
-    setPagada(pagada) {
-        this.pagada = pagada;
-    }
+  // Constructor
 
-    // Constructor
+  constructor(mesa, lineasdeCuenta, pagada) {
+    this.mesa = mesa;
+    this.lineasdeCuenta = lineasdeCuenta;
+    this.pagada = pagada;
+  }
 
-    constructor(mesa, lineasdeCuenta, pagada) {
-        this.mesa = mesa;
-        this.lineasdeCuenta = lineasdeCuenta;
-        this.pagada = pagada;
-    }
-
-    // Métodos
-
+  // Métodos
 }
 
 class Gestor {
+  // Un objeto de esta clase sirve para llevar las cuentas abiertas
 
-    // Atributos
+  // Atributos
 
-    cuentas = [];
-    mesaActual = 1;
+  // Objetos de la clase cuenta la posición dentro del array indica la mesa
+  cuentas = [];
+  mesaActual = 1;
 
-    // Getters && Setters
+  // Getters && Setters
 
-    getCuentas() {
-        return this.cuentas;
-    }
+  getCuentas() {
+    return this.cuentas;
+  }
 
-    setCuentas(cuentas) {
-        this.cuentas = cuentas;
-    }
+  setCuentas(cuentas) {
+    this.cuentas = cuentas;
+  }
 
-    getMesaActual() {
-        return this.mesaActual;
-    }
+  getMesaActual() {
+    return this.mesaActual;
+  }
 
-    setMesaActual(mesaActual) {
-        this.mesaActual = mesaActual;
-    }
+  setMesaActual(mesaActual) {
+    this.mesaActual = mesaActual;
+  }
 
-    // Constructores
+  // Constructores
 
-    constructor(cuentas, mesaActual) {
-        this.cuentas = cuentas;
-        this.mesaActual = mesaActual;
-    }
-
-    // Métodos
-
+  constructor() {
+    this.cuentas = [];
+    this.mesaActual = 1;
+  }
 }
