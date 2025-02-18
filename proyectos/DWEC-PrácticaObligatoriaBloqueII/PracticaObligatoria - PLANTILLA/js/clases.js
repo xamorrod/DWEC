@@ -1,4 +1,3 @@
-const categorias = [];
 
 class Producto {
   // Atributos
