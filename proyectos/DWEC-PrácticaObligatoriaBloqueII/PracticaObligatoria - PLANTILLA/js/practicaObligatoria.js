@@ -1,15 +1,3 @@
-// Establecemos las mesas con cuenta abierta
-document.querySelectorAll(".mesa").forEach(function (element) {
-  element.classList.add("libre");
-});
-// Establecemos la cuenta seleccionada
-document.querySelectorAll(".mesa").forEach(function (element) {
-  element.addEventListener("click", function () {
-    this.classList.toggle("seleccionada");
-    
-  });
-});
-
 // Inicializamos los objetos necesarios para la gestión
 
 const gestor = new Gestor();
@@ -62,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const productos = catalogo.productos.filter(
       (producto) => producto.idCategoria === indiceCategoria
     );
-    console.log(productos.nombre);
     productos.forEach((producto) => {
       const option = document.createElement("option");
       option.value = producto.id;
@@ -79,11 +66,73 @@ document.addEventListener("DOMContentLoaded", () => {
       cargarProductos(Number(event.target.value));
     });
   cargarCategorias();
+
+  // Inicializamos la mesa 1 como seleccionada
+  const mesaActual = document.querySelector(".mesa");
+  mesaActual.textContent = "1";
+  mesaActual.classList.add("seleccionada");
+  checkCuenta("1");
 });
 
+// Establecemos las mesas con cuenta abierta
 
-// Función que crea un objeto cuenta cada vez que se clica en una mesa
+document.querySelectorAll(".mesa").forEach(function (element) {
+  element.classList.add("libre");
+});
 
-// document.querySelectorAll(".mesa").forEach(function(element)){
-    
-// });
+// Establecemos la cuenta seleccionada con un distintivo
+
+document.querySelectorAll(".mesa").forEach(function (element) {
+  element.addEventListener("click", function () {
+    document.querySelectorAll(".mesa").forEach(function (element) {
+      element.classList.remove("seleccionada");
+    });
+
+    this.classList.add("seleccionada");
+    const mesaActual = document.querySelector(".seleccionada").textContent;
+    checkCuenta(mesaActual);
+  });
+});
+
+// Función que crea un objeto cuenta cada vez que se hace click en una mesa o revisa si ya está creado
+
+function checkCuenta(mesaActual) {
+  const existeCuenta = gestor.cuentas.some(
+    (cuenta) => cuenta.mesa === mesaActual
+  );
+  if (existeCuenta) {
+    // Ya que la cuenta está abierta imprimimos la sección en el html
+    console.log("La cuenta " + mesaActual + " está  creada");
+    imprimirCuenta();
+  } else {
+    // Creamos el obj cuenta ya que no está abierta
+    const cuenta = new Cuenta(mesaActual, false);
+    gestor.cuentas.push(cuenta);
+    console.log(gestor);
+  }
+}
+
+// Función que muestra la información de la cuenta en el html
+
+function imprimirCuenta() {
+  const cuentaPanel = document.getElementById("cuenta");
+  const cuentaText = document.createElement("h1");
+  cuentaText.textContent = "A";
+  cuentaPanel.appendChild(cuentaText);
+}
+
+// Función para añadir las líneas de cuenta a las mesas
+
+function añadirLineaCuenta() {
+  // Creamos un objeto línea de cuenta obteniendo los datos del html+
+  const categoria = document.getElementsByName("categorias");
+  const producto = document.getElementsByName("productos");
+  const cantidad = document.querySelector("tecla").forEach(function (element) {
+    element.addEventListener("click", function () {
+      console.log("Click registrado");
+    });
+  });
+
+  // Capturamos el click en el número
+  console.log("Se hizo clic en el documento");
+}

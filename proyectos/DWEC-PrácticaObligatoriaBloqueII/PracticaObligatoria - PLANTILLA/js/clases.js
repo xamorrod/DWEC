@@ -1,4 +1,3 @@
-
 class Producto {
   // Atributos
 
@@ -156,9 +155,9 @@ class Cuenta {
 
   // Constructor
 
-  constructor(mesa, lineasdeCuenta, pagada) {
+  constructor(mesa, pagada) {
     this.mesa = mesa;
-    this.lineasdeCuenta = lineasdeCuenta;
+    this.lineasdeCuenta = [];
     this.pagada = pagada;
   }
 
