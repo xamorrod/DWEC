@@ -26,6 +26,9 @@
 .libre {
   background-color: green;
 }
+.seleccionada {
+  background-color: rgb(251, 255, 0);
+}
 .ocupada {
   background-color: red;
 }

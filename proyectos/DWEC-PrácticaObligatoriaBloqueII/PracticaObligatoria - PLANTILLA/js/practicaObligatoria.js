@@ -2,9 +2,11 @@
 document.querySelectorAll(".mesa").forEach(function (element) {
   element.classList.add("libre");
 });
+// Establecemos la cuenta seleccionada
 document.querySelectorAll(".mesa").forEach(function (element) {
   element.addEventListener("click", function () {
-    this.classList.toggle("ocupada");
+    this.classList.toggle("seleccionada");
+    
   });
 });
 
@@ -82,6 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Función que crea un objeto cuenta cada vez que se clica en una mesa
 
-document.querySelectorAll(".mesa").forEach(function(element)){
+// document.querySelectorAll(".mesa").forEach(function(element)){
     
-});
+// });
