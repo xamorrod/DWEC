@@ -93,10 +93,8 @@ function checkCuenta(numMesa) {
 
   const cuentaExistente = gestor.cuentas.find((c) => c.mesa === numMesa);
   if (cuentaExistente) {
-    console.log(`Mostrando cuenta existente para mesa ${numMesa}`);
     mostrarCuenta(numMesa);
   } else {
-    console.log(`Mesa ${numMesa} libre - Sin cuenta abierta`);
     mostrarMensajeMesaLibre(numMesa);
   }
 }
