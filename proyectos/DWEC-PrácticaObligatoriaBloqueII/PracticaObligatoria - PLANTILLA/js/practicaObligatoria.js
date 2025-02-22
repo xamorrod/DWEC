@@ -1,14 +1,10 @@
 // Inicializamos los objetos necesarios para la gestión
-
 const gestor = new Gestor();
+const categorias = ["Bebidas", "Tostadas", "Bollería"];
+const catalogo = new Catalogo(categorias);
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Creamos las categorías de los productos
   // Añadimos productos al catálogo
-  //Insertamos las categorías de productos  y los productos en el html
-  const categorias = ["Bebidas", "Tostadas", "Bollería"];
-  const catalogo = new Catalogo(categorias);
-
   catalogo.addProducto(1, "Café con leche", 0.95, 0);
   catalogo.addProducto(2, "Té", 1.05, 0);
   catalogo.addProducto(3, "Cola-cao", 1.35, 0);
@@ -26,113 +22,262 @@ document.addEventListener("DOMContentLoaded", () => {
   catalogo.addProducto(15, "Caracola de crema", 1.65, 2);
   catalogo.addProducto(16, "Caña de chocolate", 1.35, 2);
 
-  // Función que carga los datos cuando se termina de cargar el DOM
-
-  function cargarCategorias() {
-    const selecCategoria = document.querySelector("[name='categorias']");
-    selecCategoria.innerHTML = "";
-
-    categorias.forEach((categoria, index) => {
-      const option = document.createElement("option");
-      option.value = index;
-      option.textContent = categoria;
-      selecCategoria.appendChild(option);
-    });
-
-    cargarProductos(0);
-  }
-  function cargarProductos(indiceCategoria) {
-    const selectProducto = document.querySelector("[name='productos']");
-    selectProducto.innerHTML = "";
-
-    // Obtenemos los productos que pertenecen a la categoria seleccionada
-
-    const productos = catalogo.productos.filter(
-      (producto) => producto.idCategoria === indiceCategoria
-    );
-    productos.forEach((producto) => {
-      const option = document.createElement("option");
-      option.value = producto.id;
-      option.textContent = producto.nombreProducto;
-      selectProducto.appendChild(option);
-    });
-  }
-
-  // Recargamos las selección de productos cuando se cambia la categoría
-
-  document
-    .querySelector("[name='categorias']")
-    .addEventListener("change", (event) => {
-      cargarProductos(Number(event.target.value));
-    });
+  // Cargamos las categorías y productos en el HTML
   cargarCategorias();
 
   // Inicializamos la mesa 1 como seleccionada
-  const mesaActual = document.querySelector(".mesa");
-  mesaActual.textContent = "1";
-  mesaActual.classList.add("seleccionada");
+  const mesas = document.querySelectorAll(".mesa");
+  mesas.forEach((mesa) => mesa.classList.add("libre"));
+  mesas[0].classList.add("seleccionada");
   checkCuenta("1");
 });
 
-// Establecemos las mesas con cuenta abierta
+// Función para limpiar el panel de cuenta
+function limpiarPanelCuenta() {
+  const cuentaPanel = document.getElementById("cuenta");
+  cuentaPanel.innerHTML = "";
+}
 
-document.querySelectorAll(".mesa").forEach(function (element) {
-  element.classList.add("libre");
-});
+// Función para cargar categorías
+function cargarCategorias() {
+  const selecCategoria = document.querySelector("[name='categorias']");
+  selecCategoria.innerHTML = "";
 
-// Establecemos la cuenta seleccionada con un distintivo
+  categorias.forEach((categoria, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = categoria;
+    selecCategoria.appendChild(option);
+  });
 
-document.querySelectorAll(".mesa").forEach(function (element) {
-  element.addEventListener("click", function () {
-    document.querySelectorAll(".mesa").forEach(function (element) {
-      element.classList.remove("seleccionada");
+  cargarProductos(0);
+}
+
+// Función para cargar productos
+function cargarProductos(indiceCategoria) {
+  const selectProducto = document.querySelector("[name='productos']");
+  selectProducto.innerHTML = "";
+
+  catalogo.productos
+    .filter((producto) => producto.idCategoria === indiceCategoria)
+    .forEach((producto) => {
+      const option = document.createElement("option");
+      option.value = producto.idProducto;
+      option.textContent = producto.nombreProducto;
+      selectProducto.appendChild(option);
     });
+}
 
+// Evento cambio de categoría
+document
+  .querySelector("[name='categorias']")
+  .addEventListener("change", (e) => {
+    cargarProductos(Number(e.target.value));
+  });
+
+// Evento selección de mesa
+document.querySelectorAll(".mesa").forEach((mesa) => {
+  mesa.addEventListener("click", function () {
+    document
+      .querySelectorAll(".mesa")
+      .forEach((m) => m.classList.remove("seleccionada"));
     this.classList.add("seleccionada");
-    const mesaActual = document.querySelector(".seleccionada").textContent;
-    checkCuenta(mesaActual);
+    const numMesa = this.textContent.trim();
+    checkCuenta(numMesa);
   });
 });
 
-// Función que crea un objeto cuenta cada vez que se hace click en una mesa o revisa si ya está creado
+// Función principal de gestión de cuentas
+function checkCuenta(numMesa) {
+  limpiarPanelCuenta();
 
-function checkCuenta(mesaActual) {
-  const existeCuenta = gestor.cuentas.some(
-    (cuenta) => cuenta.mesa === mesaActual
-  );
-  if (existeCuenta) {
-    // Ya que la cuenta está abierta imprimimos la sección en el html
-    console.log("La cuenta " + mesaActual + " está  creada");
-    imprimirCuenta();
+  const cuentaExistente = gestor.cuentas.find((c) => c.mesa === numMesa);
+  if (cuentaExistente) {
+    console.log(`Mostrando cuenta existente para mesa ${numMesa}`);
+    mostrarCuenta(numMesa);
   } else {
-    // Creamos el obj cuenta ya que no está abierta
-    const cuenta = new Cuenta(mesaActual, false);
-    gestor.cuentas.push(cuenta);
-    console.log(gestor);
+    console.log(`Mesa ${numMesa} libre - Sin cuenta abierta`);
+    mostrarMensajeMesaLibre(numMesa);
   }
 }
 
-// Función que muestra la información de la cuenta en el html
+// Función para mostrar cuenta existente
+function mostrarCuenta(numMesa) {
+  const cuenta = gestor.cuentas.find((c) => c.mesa === numMesa);
 
-function imprimirCuenta() {
+  // Cabecera
   const cuentaPanel = document.getElementById("cuenta");
-  const cuentaText = document.createElement("h1");
-  cuentaText.textContent = "A";
-  cuentaPanel.appendChild(cuentaText);
-}
+  const titulo = document.createElement("h1");
+  const total = document.createElement("h3");
+  const subTitulo = document.createElement("h4");
 
-// Función para añadir las líneas de cuenta a las mesas
+  titulo.textContent = "Cuenta";
 
-function añadirLineaCuenta() {
-  // Creamos un objeto línea de cuenta obteniendo los datos del html+
-  const categoria = document.getElementsByName("categorias");
-  const producto = document.getElementsByName("productos");
-  const cantidad = document.querySelector("tecla").forEach(function (element) {
-    element.addEventListener("click", function () {
-      console.log("Click registrado");
-    });
+  const totalCuenta = calcularTotal(numMesa);
+  total.textContent = `TOTAL: ${totalCuenta.toFixed(2)}€`;
+  subTitulo.textContent = `Mesa ${numMesa}`;
+
+  cuentaPanel.appendChild(titulo);
+  cuentaPanel.appendChild(total);
+  cuentaPanel.appendChild(subTitulo);
+
+  
+
+  // Tabla
+  const tabla = document.createElement("table");
+  tabla.innerHTML = `
+    <thead>
+      <tr>
+        <th>Modificar</th>
+        <th>Uds.</th>
+        <th>Id.</th>
+        <th>Producto</th>
+        <th>Precio</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  // Rellenar tabla
+  const tbody = tabla.querySelector("tbody");
+  cuenta.lineasdeCuenta.forEach((linea, index) => {
+    const producto = catalogo.productos.find(
+      (p) => p.idProducto === linea.idProducto
+    );
+    const fila = document.createElement("tr");
+
+    // Almecenamos la propiedad en un elemento adicional HTML
+    fila.dataset.lineaIndex = index;
+    fila.innerHTML = `
+     <td>
+        <button class="btn-mas boton">+</button>
+        <button class="btn-menos boton">-</button>
+      </td>
+      <td>${linea.unidades}</td>
+      <td>${linea.idProducto}  </td>
+      <td>${producto.nombreProducto} (ud :${producto.precioUnidad}€)</td>
+      <td>${(producto.precioUnidad * linea.unidades).toFixed(2)}€</td>
+     
+    `;
+    tbody.appendChild(fila);
+    // Eventos para los botones
+    const btnMas = fila.querySelector(".btn-mas");
+    const btnMenos = fila.querySelector(".btn-menos");
+
+    btnMas.addEventListener("click", () => modificarUnidad(numMesa, index, 1));
+    btnMenos.addEventListener("click", () =>
+      modificarUnidad(numMesa, index, -1)
+    );
+
+    tbody.appendChild(fila);
   });
 
-  // Capturamos el click en el número
-  console.log("Se hizo clic en el documento");
+  // Botón de pago
+  const btnPagar = document.createElement("button");
+  btnPagar.classList.add("boton");
+  btnPagar.textContent = "PAGAR Y LIBERAR MESA";
+  btnPagar.addEventListener("click", () => liberarMesa(numMesa));
+
+  cuentaPanel.appendChild(btnPagar);
+  cuentaPanel.appendChild(tabla);
+}
+
+// Función para añadir productos
+document.querySelectorAll(".tecla").forEach((boton) => {
+  boton.addEventListener("click", function () {
+    const categoria = document.querySelector("[name='categorias']").value;
+    const productoId = document.querySelector("[name='productos']").value;
+    const unidades = parseInt(this.value);
+
+    const producto = catalogo.productos.find(
+      (p) => p.idProducto == productoId && p.idCategoria == categoria
+    );
+
+    if (!producto) return;
+
+    const mesaSeleccionada = document.querySelector(".mesa.seleccionada");
+    const numMesa = mesaSeleccionada.textContent.trim();
+
+    // Buscar o crear cuenta
+    let cuenta = gestor.cuentas.find((c) => c.mesa === numMesa);
+    if (!cuenta) {
+      cuenta = new Cuenta(numMesa, false);
+      gestor.cuentas.push(cuenta);
+      mesaSeleccionada.classList.replace("libre", "ocupada");
+    }
+
+    // Añadir línea de cuenta
+    const lineaExistente = cuenta.lineasdeCuenta.find(
+      (l) => l.idProducto == productoId
+    );
+    if (lineaExistente) {
+      alert(
+        "Una vez añadidos una vez debe usar los botones para modificar la cantidad"
+      );
+    } else {
+      cuenta.lineasdeCuenta.push(
+        new LineaCuenta(unidades, producto.idProducto)
+      );
+    }
+
+    // Actualizar vista
+    checkCuenta(numMesa);
+  });
+});
+
+// Función para modificar unidades a través de os botones
+
+function modificarUnidad(numMesa, lineaIndex, cantidad){
+  const cuenta = gestor.cuentas.find(c => c.mesa === numMesa);
+  const linea = cuenta.lineasdeCuenta[lineaIndex];
+
+  if((linea.unidades + cantidad) < 1){
+    if(confirm("¿Eliminar producto de la cuenta?")){
+      cuenta.lineasdeCuenta.splice(lineaIndex, 1);
+    }
+  }else{
+    linea.unidades += cantidad;
+  }
+
+  if(cuenta.lineasdeCuenta.length === 0){
+    liberarMesa(numMesa);
+  }else{
+    checkCuenta(numMesa);
+  }
+}
+// Función para liberar mesa
+function liberarMesa(numMesa) {
+  const index = gestor.cuentas.findIndex((c) => c.mesa === numMesa);
+  if (index > -1) {
+    gestor.cuentas.splice(index, 1);
+    document.querySelectorAll(".mesa").forEach((mesa) => {
+      if (mesa.textContent.trim() === numMesa) {
+        mesa.classList.replace("ocupada", "libre");
+      }
+    });
+    limpiarPanelCuenta();
+    mostrarMensajeMesaLibre(numMesa);
+  }
+}
+
+// Función para calcular el total de la cuenta
+
+function calcularTotal(numMesa) {
+  const cuenta = gestor.cuentas.find((c) => c.mesa === numMesa);
+
+  return cuenta.lineasdeCuenta.reduce((total, linea) => {
+    const producto = catalogo.productos.find(
+      (p) => p.idProducto === linea.idProducto
+    );
+    return total + (producto?.precioUnidad || 0) * linea.unidades;
+  }, 0);
+}
+
+// Función para mostrar mensaje de mesa libre
+function mostrarMensajeMesaLibre(numMesa) {
+  const cuentaPanel = document.getElementById("cuenta");
+  const mensaje = document.createElement("div");
+  mensaje.textContent = `Mesa ${numMesa} - Libre`;
+  mensaje.classList.add("mesa-libre");
+  cuentaPanel.appendChild(mensaje);
 }

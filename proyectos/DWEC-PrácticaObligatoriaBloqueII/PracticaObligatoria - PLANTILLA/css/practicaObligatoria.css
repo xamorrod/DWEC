@@ -1,3 +1,7 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .panel {
   border: medium blue solid;
   width: 450px;
@@ -27,7 +31,7 @@
   background-color: green;
 }
 .seleccionada {
-  background-color: rgb(251, 255, 0);
+  background-color: rgb(228, 231, 50);
 }
 .ocupada {
   background-color: red;

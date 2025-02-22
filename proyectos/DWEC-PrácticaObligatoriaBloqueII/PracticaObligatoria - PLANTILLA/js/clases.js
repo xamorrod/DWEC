@@ -50,6 +50,8 @@ class Producto {
   }
 
   // Métodos
+
+  
 }
 
 class Catalogo {
