@@ -119,8 +119,6 @@ function mostrarCuenta(numMesa) {
   cuentaPanel.appendChild(total);
   cuentaPanel.appendChild(subTitulo);
 
-  
-
   // Tabla
   const tabla = document.createElement("table");
   tabla.innerHTML = `
@@ -223,30 +221,37 @@ document.querySelectorAll(".tecla").forEach((boton) => {
   });
 });
 
-// Función para modificar unidades a través de os botones
+// Función para modificar unidades a través de los botones
 
-function modificarUnidad(numMesa, lineaIndex, cantidad){
-  const cuenta = gestor.cuentas.find(c => c.mesa === numMesa);
+function modificarUnidad(numMesa, lineaIndex, cantidad) {
+  const cuenta = gestor.cuentas.find((c) => c.mesa === numMesa);
   const linea = cuenta.lineasdeCuenta[lineaIndex];
 
-  if((linea.unidades + cantidad) < 1){
-    if(confirm("¿Eliminar producto de la cuenta?")){
+  if (linea.unidades + cantidad < 1) {
+    if (confirm("¿Eliminar producto de la cuenta?")) {
       cuenta.lineasdeCuenta.splice(lineaIndex, 1);
     }
-  }else{
+  } else {
     linea.unidades += cantidad;
   }
 
-  if(cuenta.lineasdeCuenta.length === 0){
-    liberarMesa(numMesa);
-  }else{
+  if (cuenta.lineasdeCuenta.length === 0) {
+    liberarMesa(numMesa, true);
+  } else {
     checkCuenta(numMesa);
   }
 }
 // Función para liberar mesa
-function liberarMesa(numMesa) {
+function liberarMesa(numMesa, esAutomatico = false) {
   const index = gestor.cuentas.findIndex((c) => c.mesa === numMesa);
   if (index > -1) {
+    const totalCuenta = calcularTotal(numMesa);
+    if (!esAutomatico) {
+      const totalCuenta = calcularTotal(numMesa);
+      if (!calcularCambio(totalCuenta)) {
+        return;
+      }
+    }
     gestor.cuentas.splice(index, 1);
     document.querySelectorAll(".mesa").forEach((mesa) => {
       if (mesa.textContent.trim() === numMesa) {
@@ -278,4 +283,31 @@ function mostrarMensajeMesaLibre(numMesa) {
   mensaje.textContent = `Mesa ${numMesa} - Libre`;
   mensaje.classList.add("mesa-libre");
   cuentaPanel.appendChild(mensaje);
+}
+
+// Función para calcular el cambio dado un importe que paga el cliente
+
+function calcularCambio(totalCuenta) {
+  // Solicitar el importe pagado
+  const importePagado = parseFloat(
+    prompt(
+      `Total a pagar: ${totalCuenta.toFixed(2)}€\nIntroduce el importe pagado:`
+    )
+  );
+
+  // Validar el importe
+  if (isNaN(importePagado)) {
+    alert("Por favor, introduce un número válido.");
+    return false;
+  }
+
+  if (importePagado < totalCuenta) {
+    alert("El importe pagado es insuficiente.");
+    return false;
+  }
+
+  // Calcular el cambio
+  const cambio = importePagado - totalCuenta;
+  alert(`Cambio a devolver: ${cambio.toFixed(2)}€`);
+  return true;
 }
