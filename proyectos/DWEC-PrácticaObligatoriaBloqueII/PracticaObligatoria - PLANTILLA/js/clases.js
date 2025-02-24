@@ -50,8 +50,6 @@ class Producto {
   }
 
   // Métodos
-
-  
 }
 
 class Catalogo {
@@ -127,7 +125,7 @@ class Cuenta {
   // Cada objeto de esta clase representa la cuenta abierta de una determinada mesa
   mesa;
   lineasdeCuenta = [];
-  pagada;
+  pagada = false;
 
   // Getters && Setters
 

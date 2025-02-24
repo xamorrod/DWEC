@@ -166,6 +166,7 @@ function mostrarCuenta(numMesa) {
     );
 
     tbody.appendChild(fila);
+    //regex hora y color
   });
 
   // Botón de pago
@@ -244,6 +245,8 @@ function modificarUnidad(numMesa, lineaIndex, cantidad) {
 // Función para liberar mesa
 function liberarMesa(numMesa, esAutomatico = false) {
   const index = gestor.cuentas.findIndex((c) => c.mesa === numMesa);
+  const cuenta = gestor.getCuentas(index);
+  cuenta.setPagada(true);
   if (index > -1) {
     const totalCuenta = calcularTotal(numMesa);
     if (!esAutomatico) {
@@ -283,6 +286,7 @@ function mostrarMensajeMesaLibre(numMesa) {
   mensaje.textContent = `Mesa ${numMesa} - Libre`;
   mensaje.classList.add("mesa-libre");
   cuentaPanel.appendChild(mensaje);
+  
 }
 
 // Función para calcular el cambio dado un importe que paga el cliente
