@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTasks } from '../context/TaskContext';
-import { TaskPriority, TaskStatus } from '../context/TaskContext';
+import { TaskPriority} from '../context/TaskContext';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';

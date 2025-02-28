@@ -51,7 +51,7 @@ const Register = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="correo@ejemplo.com"
+                placeholder="admin@admin.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"

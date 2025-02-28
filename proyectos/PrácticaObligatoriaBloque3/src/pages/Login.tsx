@@ -58,7 +58,7 @@ const Login = () => {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="correo@ejemplo.com"
+                placeholder="admin@admin.com"
                 className="focus-visible:ring-ring"
                 required
                 disabled={authLoading}

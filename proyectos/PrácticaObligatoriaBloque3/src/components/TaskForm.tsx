@@ -7,7 +7,7 @@ interface CreateTaskFormProps {
     onCreate: (taskData: { name: string; priority: string; date: string }) => void;
 }
 
-const CreateTaskForm: React.FC<CreateTaskFormProps> = ({ userId, onCreate }) => {
+const CreateTaskForm: React.FC<CreateTaskFormProps> = ({ onCreate }) => {
     const [newTask, setNewTask] = useState('');
     const [priority, setPriority] = useState('');
     const [date, setDate] = useState('');

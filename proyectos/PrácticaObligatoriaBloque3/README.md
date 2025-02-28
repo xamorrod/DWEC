@@ -1,54 +1,55 @@
-# React + TypeScript + Vite
+# Descripción del Proyecto 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tecnologías Usadas 🛠️
+- **React**: Una biblioteca de JavaScript para construir interfaces de usuario.
+- **TypeScript**: Un superconjunto tipado de JavaScript que se compila a JavaScript puro.
+- **Tailwind CSS**: Un framework CSS de utilidad para desarrollo rápido de UI.
+- **Firebase**: Una plataforma desarrollada por Google para crear aplicaciones móviles y web.
+- **React Router**: Una biblioteca para manejar rutas en aplicaciones React.
 
-Currently, two official plugins are available:
+## Configuración del Entorno 🖥️
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-repo/proyecto.git
+   ```
+2. Navega al directorio del proyecto:
+   ```bash
+   cd proyecto
+   ```
+3. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+4. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Operación de Fetch 🌐
+El proyecto utiliza la API Fetch para recuperar datos del backend. La operación de fetch se implementa en el archivo `firebaseService.ts`, que maneja la comunicación con Firebase para realizar operaciones CRUD.
 
-## Expanding the ESLint configuration
+## Clase Task 📋
+La clase `Task` representa una tarea en la aplicación. Incluye propiedades como `id`, `title`, `description`, `status` y `dueDate`. La clase proporciona métodos para crear, actualizar y eliminar tareas, asegurando que la funcionalidad de gestión de tareas sea robusta y eficiente.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Autenticación de Perfiles 🔐
+La autenticación de usuarios se maneja utilizando Firebase Authentication. Los usuarios pueden registrarse, iniciar sesión y cerrar sesión. La autenticación se implementa en el archivo `AuthContext.tsx`, que proporciona el contexto de autenticación a toda la aplicación.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Registro de Nuevo Usuario 📝
+El registro de un nuevo usuario se maneja en el archivo `Register.tsx`. El formulario de registro incluye campos para el correo electrónico, la contraseña y la confirmación de la contraseña. Al enviar el formulario, se valida que las contraseñas coincidan y luego se llama a la función `register` del contexto de autenticación para crear una nueva cuenta en Firebase. Si el registro es exitoso, el usuario es redirigido al panel de control.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Funcionalidades Principales 📝
+- **Registro y Autenticación**: Los usuarios pueden registrarse y autenticarse utilizando Firebase.
+- **Gestión de Tareas**: Crear, editar, eliminar y visualizar tareas.
+- **Rutas Protegidas**: Acceso a rutas protegidas basado en el estado de autenticación del usuario.
+- **Temas**: Soporte para temas utilizando `ThemeProvider`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Instrucciones de Uso 📚
+1. Regístrate o inicia sesión para acceder al panel de control.
+2. Crea, edita y elimina tareas utilizando los formularios proporcionados.
+3. Visualiza la lista de tareas y gestiona sus estados.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Contribuyendo 🤝
+Siéntete libre de contribuir a este proyecto abriendo issues y enviando pull requests. ¡Todas las contribuciones son bienvenidas!
+
+## Licencia 📄
+Este proyecto está licenciado bajo la Licencia MIT.

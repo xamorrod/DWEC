@@ -9,6 +9,8 @@ import {
 export type TaskPriority = 'alta' | 'media' | 'baja';
 export type TaskStatus = 'pendiente' | 'completada';
 
+
+// Clase creada para representar las tareas
 export type Task = {
     id: string;
     name: string;
@@ -28,7 +30,8 @@ type FirebaseTask = {
     date: string;
     status?: TaskStatus;
     createdAt?: string;
-    [key: string]: any; // Para cualquier otro campo que pueda venir de Firebase
+    // Para cualquier otro campo que pueda venir de Firebase
+    [key: string]: any;
 };
 
 type TaskContextType = {
