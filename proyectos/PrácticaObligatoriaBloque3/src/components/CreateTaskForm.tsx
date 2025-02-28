@@ -33,37 +33,28 @@ const CreateTaskForm = () => {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-4 shadow-md transition-shadow hover:shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100" id="newTaskFormTitle">Nueva Tarea</h2>
-            <form onSubmit={handleSubmit} className="space-y-6" aria-labelledby="newTaskFormTitle">
+        <div className="bg-card text-card-foreground rounded-lg p-6 mb-4 shadow-sm">
+            <h2 className="text-2xl font-bold mb-6">Nueva Tarea</h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                    <Label htmlFor="name" className="text-gray-700 dark:text-gray-300 text-base">
-                        Nombre de la tarea <span className="text-red-500" aria-hidden="true">*</span>
+                    <Label htmlFor="name">
+                        Nombre de la tarea <span className="text-destructive">*</span>
                     </Label>
                     <Input
                         id="name"
-                        name="name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Ej: Preparar presentación"
-                        className="dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                        className="focus-visible:ring-ring"
                         disabled={loading}
                         required
-                        aria-required="true"
-                        aria-invalid={formData.name.trim() === ''}
-                        aria-describedby="name-error"
                     />
-                    {formData.name.trim() === '' && (
-                        <p id="name-error" className="text-sm text-red-500 mt-1">
-                            El nombre de la tarea es requerido
-                        </p>
-                    )}
                 </div>
-        
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                        <Label htmlFor="priority" className="text-gray-700 dark:text-gray-300 text-base">
-                            Prioridad <span className="text-red-500" aria-hidden="true">*</span>
+                        <Label htmlFor="priority">
+                            Prioridad <span className="text-destructive">*</span>
                         </Label>
                         <Select
                             value={formData.priority}
@@ -71,56 +62,43 @@ const CreateTaskForm = () => {
                                 setFormData({ ...formData, priority: value })
                             }
                             disabled={loading}
-                            required
                         >
-                            <SelectTrigger
-                                className="dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-                                aria-required="true"
-                            >
+                            <SelectTrigger className="focus-visible:ring-ring">
                                 <SelectValue placeholder="Selecciona prioridad" />
                             </SelectTrigger>
-                            <SelectContent className="dark:bg-gray-700 dark:border-gray-600">
-                                <SelectItem value="alta" className="dark:hover:bg-gray-600 transition-colors">
-                                    Alta
-                                </SelectItem>
-                                <SelectItem value="media" className="dark:hover:bg-gray-600 transition-colors">
-                                    Media
-                                </SelectItem>
-                                <SelectItem value="baja" className="dark:hover:bg-gray-600 transition-colors">
-                                    Baja
-                                </SelectItem>
+                            <SelectContent>
+                                <SelectItem value="alta" className="hover:bg-accent">Alta</SelectItem>
+                                <SelectItem value="media" className="hover:bg-accent">Media</SelectItem>
+                                <SelectItem value="baja" className="hover:bg-accent">Baja</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
-        
+
                     <div className="space-y-2">
-                        <Label htmlFor="date" className="text-gray-700 dark:text-gray-300 text-base">
-                            Fecha límite <span className="text-red-500" aria-hidden="true">*</span>
+                        <Label htmlFor="date">
+                            Fecha límite <span className="text-destructive">*</span>
                         </Label>
                         <Input
                             type="date"
                             id="date"
-                            name="date"
                             value={formData.date}
                             onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                            className="dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+                            className="focus-visible:ring-ring"
                             disabled={loading}
                             required
-                            aria-required="true"
                             min={new Date().toISOString().split('T')[0]}
                         />
                     </div>
                 </div>
-        
+
                 <Button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
+                    className="w-full"
                     disabled={loading || !formData.name.trim()}
-                    aria-busy={loading}
                 >
                     {loading ? (
                         <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             <span>Creando...</span>
                         </>
                     ) : (

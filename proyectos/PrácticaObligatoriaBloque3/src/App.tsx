@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { TaskProvider } from './context/TaskContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -11,8 +12,8 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -26,8 +27,8 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -37,23 +38,23 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 
 const TaskApp = () => {
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-screen bg-background text-foreground">
       <Routes>
-        <Route
-          path="/login"
+        <Route 
+          path="/login" 
           element={
             <PublicRoute>
               <Login />
             </PublicRoute>
-          }
+          } 
         />
-        <Route
-          path="/register"
+        <Route 
+          path="/register" 
           element={
             <PublicRoute>
               <Register />
             </PublicRoute>
-          }
+          } 
         />
         <Route
           path="/"
@@ -71,13 +72,17 @@ const TaskApp = () => {
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <TaskProvider>
-          <TaskApp />
-        </TaskProvider>
-      </AuthProvider>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <AuthProvider>
+          <TaskProvider>
+            <div className="min-h-screen bg-background text-foreground">
+              <TaskApp />
+            </div>
+          </TaskProvider>
+        </AuthProvider>
+      </Router>
+    </ThemeProvider>
   );
 }
 

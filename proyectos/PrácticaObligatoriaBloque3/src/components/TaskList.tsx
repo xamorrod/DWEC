@@ -16,17 +16,17 @@ const TaskList = () => {
     const getPriorityColor = (priority: TaskPriority) => {
         switch (priority) {
             case 'alta':
-                return 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100';
+                return 'bg-destructive/20 text-destructive';
             case 'media':
-                return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100';
+                return 'bg-primary/20 text-primary';
             default:
-                return 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100';
+                return 'bg-secondary/20 text-secondary-foreground';
         }
     };
 
     if (error) {
         return (
-            <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div className="p-4 mb-4 text-sm text-destructive rounded-lg bg-destructive/10" role="alert">
                 {error}
             </div>
         );
@@ -35,7 +35,7 @@ const TaskList = () => {
     if (loading && tasks.length === 0) {
         return (
             <div className="flex justify-center items-center h-32">
-                <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
         );
     }
@@ -43,16 +43,16 @@ const TaskList = () => {
     return (
         <div className="space-y-6">
             {tasks.length === 0 ? (
-                <p className="text-gray-600 dark:text-gray-400 text-center py-8">
+                <p className="text-muted-foreground text-center py-8">
                     No hay tareas registradas
                 </p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {tasks.map((task) => (
-                        <Card key={task.id} className="dark:bg-gray-800 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-primary">
+                        <Card key={task.id} className="border border-border hover:shadow-lg transition-shadow duration-200 focus-within:ring-2 focus-within:ring-ring">
                             <CardHeader className="pb-2">
                                 <div className="flex justify-between items-start gap-4">
-                                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 break-words">
+                                    <CardTitle className="text-lg font-semibold break-words">
                                         {task.name}
                                     </CardTitle>
                                     <Badge 
@@ -67,12 +67,12 @@ const TaskList = () => {
                         
                             <CardContent className="space-y-4">
                                 <div className="flex flex-wrap justify-between items-center gap-2">
-                                    <span className="text-sm text-gray-600 dark:text-gray-400" role="time">
+                                    <span className="text-sm text-muted-foreground" role="time">
                                         {new Date(task.date).toLocaleDateString()}
                                     </span>
                                     <Badge
                                         variant={task.status === 'completada' ? 'default' : 'outline'}
-                                        className="cursor-pointer transition-colors duration-200 hover:bg-opacity-90"
+                                        className="cursor-pointer transition-colors duration-200 hover:bg-accent"
                                         onClick={() => user && toggleTaskStatus(user.uid, task.id)}
                                         role="switch"
                                         aria-checked={task.status === 'completada'}
@@ -90,7 +90,7 @@ const TaskList = () => {
                                 <div className="flex flex-wrap justify-between gap-3">
                                     <Button
                                         variant="outline"
-                                        className="flex-1 min-w-[120px] dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                                        className="flex-1 min-w-[120px]"
                                         onClick={() => setEditingTaskId(task.id)}
                                         aria-label="Editar tarea"
                                     >
@@ -98,7 +98,7 @@ const TaskList = () => {
                                     </Button>
                                     <Button
                                         variant="destructive"
-                                        className="flex-1 min-w-[120px] focus:ring-2 focus:ring-destructive focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                                        className="flex-1 min-w-[120px]"
                                         onClick={() => user && deleteTask(user.uid, task.id)}
                                         aria-label="Eliminar tarea"
                                     >

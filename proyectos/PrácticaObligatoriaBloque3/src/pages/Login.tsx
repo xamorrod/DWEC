@@ -40,18 +40,18 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-      <Card className="w-full max-w-md dark:bg-gray-800 dark:border-gray-700 shadow-xl">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md">
         <CardHeader className="space-y-2 text-center">
-          <CardTitle className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          <CardTitle className="text-2xl font-bold">
             Iniciar Sesión
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">
-                Email
+              <Label htmlFor="email">
+                Email <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="email"
@@ -59,15 +59,15 @@ const Login = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="correo@ejemplo.com"
-                className="dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                className="focus-visible:ring-ring"
                 required
                 disabled={authLoading}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-700 dark:text-gray-300">
-                Contraseña
+              <Label htmlFor="password">
+                Contraseña <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="password"
@@ -75,21 +75,21 @@ const Login = () => {
                 placeholder="********"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                className="focus-visible:ring-ring"
                 required
                 disabled={authLoading}
               />
             </div>
 
             {error && (
-              <div className="text-sm text-red-600 dark:text-red-400" role="alert">
+              <div className="text-sm text-destructive" role="alert">
                 {error}
               </div>
             )}
 
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
+              className="w-full"
               disabled={authLoading}
             >
               {authLoading ? (
@@ -102,14 +102,14 @@ const Login = () => {
               )}
             </Button>
 
-            <div className="space-y-4 text-center text-sm text-gray-600 dark:text-gray-400">
+            <div className="space-y-4 text-center text-sm text-muted-foreground">
               <div>
-                <Link to="/register" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                <Link to="/register" className="text-primary hover:text-primary/90 transition-colors">
                   ¿No tienes cuenta? Regístrate
                 </Link>
               </div>
               <div>
-                <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <a href="#" className="text-primary hover:text-primary/90 transition-colors">
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
