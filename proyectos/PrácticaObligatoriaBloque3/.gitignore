@@ -7,18 +7,47 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencias y builds
+node_modules/
+dist/
+dist-ssr/
+build/
+.cache/
 *.local
+package-lock.json
 
-# Editor directories and files
+# Archivos de Firebase
+.firebase/
+src/lib/firebase.ts
+
+# Firebase
+firebase.json
+firestore.rules
+storage.rules
+
+
+# Variables de entorno
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# Configuración de editores
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Coverage de tests
+coverage/
+
+# Evitar subir lockfiles innecesarios si usas otro gestor de paquetes
+yarn.lock
+pnpm-lock.yaml
+package-lock.json

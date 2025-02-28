@@ -1,50 +1,71 @@
-// src/App.tsx
-import { MyTable } from "./CustomComponents/CustomTable";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../src/components/ui/table";
-import { Button } from "../src/components/ui/button";
+import { useEffect } from 'react';
+import { TaskProvider, useTasks } from './context/TaskContext';
+import CreateTaskForm from './components/CreateTaskForm';
+import TaskList from './components/TaskList';
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
+import { ThemeProvider } from './context/ThemeContent';
 
-interface User {
-  name: string;
-  age: number;
-  job: string;
-}
+const TaskApp = () => {
+  const { getTasks } = useTasks();
 
-function App() {
-  const data: User[] = [
-    { name: "John Doe", age: 30, job: "Developer" },
-    { name: "Jane Smith", age: 25, job: "Designer" },
-  ];
+  useEffect(() => {
+
+    // Cuando se inicia la aplicación se cargan las tareas existentes del usuario
+    // Usamos un ID fijo para este ejemplo, en producción se usaría un ID de usuario real
+    getTasks('currentUserId');
+  }, [getTasks]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-900 text-white">
-      <MyTable />
-      <div className="overflow-x-auto bg-zinc-900 text-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Tabla de Usuarios</h2>
-        <Table className="w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="p-3 text-left">Nombre</TableHead>
-              <TableHead className="p-3 text-left">Edad</TableHead>
-              <TableHead className="p-3 text-left">Trabajo</TableHead>
-              <TableHead className="p-3 text-left">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((user: User, index: number) => (
-              <TableRow key={index} className="border-t border-zinc-600">
-                <TableCell className="p-3">{user.name}</TableCell>
-                <TableCell className="p-3">{user.age}</TableCell>
-                <TableCell className="p-3">{user.job}</TableCell>
-                <TableCell className="p-3">
-                  <Button variant="destructive">Eliminar</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    </div>
+    <main className="container mx-auto p-4 max-w-6xl min-h-screen bg-gray-50 dark:bg-gray-900">
+        <header className="mb-8">
+            <h1 className="sr-only">Gestor de Tareas</h1>
+        </header>
     
+        <div className="space-y-8">
+            <section aria-labelledby="nueva-tarea-title">
+                <Card className="mb-8 dark:bg-gray-800 dark:border-gray-700 shadow-lg transition-shadow hover:shadow-xl">
+                    <CardHeader className="pb-4">
+                        <div className="flex justify-between items-center">
+                            <CardTitle id="nueva-tarea-title" className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                                Gestor de Tareas
+                            </CardTitle>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <CreateTaskForm />
+                    </CardContent>
+                </Card>
+            </section>
+    
+            <section aria-labelledby="mis-tareas-title">
+                <Card className="dark:bg-gray-800 dark:border-gray-700 shadow-lg transition-shadow hover:shadow-xl">
+                    <CardHeader>
+                        <CardTitle id="mis-tareas-title" className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                            Mis Tareas
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <TaskList />
+                    </CardContent>
+                </Card>
+            </section>
+        </div>
+    
+        <footer className="mt-12 text-center text-sm text-gray-600 dark:text-gray-400">
+            <p>© {new Date().getFullYear()} Gestor de Tareas. Todos los derechos reservados.</p>
+        </footer>
+    </main>
+  );
+};
+
+// Envolviendo con providers
+function App() {
+  return (
+    <ThemeProvider>
+      <TaskProvider>
+        <TaskApp />
+      </TaskProvider>
+    </ThemeProvider>
   );
 }
 

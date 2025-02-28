@@ -246,7 +246,6 @@ function modificarUnidad(numMesa, lineaIndex, cantidad) {
 function liberarMesa(numMesa, esAutomatico = false) {
   const index = gestor.cuentas.findIndex((c) => c.mesa === numMesa);
   const cuenta = gestor.getCuentas(index);
-  cuenta.setPagada(true);
   if (index > -1) {
     const totalCuenta = calcularTotal(numMesa);
     if (!esAutomatico) {
