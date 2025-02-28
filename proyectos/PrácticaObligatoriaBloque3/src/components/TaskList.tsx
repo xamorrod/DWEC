@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTasks } from '../context/TaskContext';
 import { TaskPriority, TaskStatus } from '../context/TaskContext';
+import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
@@ -9,6 +10,7 @@ import EditTaskForm from './EditTaskForm';
 
 const TaskList = () => {
     const { tasks, loading, error, deleteTask, toggleTaskStatus } = useTasks();
+    const { user } = useAuth();
     const [editingTaskId, setEditingTaskId] = React.useState<string | null>(null);
 
     const getPriorityColor = (priority: TaskPriority) => {
@@ -24,7 +26,7 @@ const TaskList = () => {
 
     if (error) {
         return (
-            <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
+            <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
                 {error}
             </div>
         );
@@ -53,7 +55,7 @@ const TaskList = () => {
                                     <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 break-words">
                                         {task.name}
                                     </CardTitle>
-                                    <Badge
+                                    <Badge 
                                         className={`${getPriorityColor(task.priority)} text-sm font-medium px-3 py-1`}
                                         role="status"
                                         aria-label={`Prioridad: ${task.priority}`}
@@ -71,13 +73,13 @@ const TaskList = () => {
                                     <Badge
                                         variant={task.status === 'completada' ? 'default' : 'outline'}
                                         className="cursor-pointer transition-colors duration-200 hover:bg-opacity-90"
-                                        onClick={() => toggleTaskStatus('currentUserId', task.id)}
+                                        onClick={() => user && toggleTaskStatus(user.id, task.id)}
                                         role="switch"
                                         aria-checked={task.status === 'completada'}
                                         tabIndex={0}
                                         onKeyPress={(e) => {
                                             if (e.key === 'Enter' || e.key === ' ') {
-                                                toggleTaskStatus('currentUserId', task.id);
+                                                user && toggleTaskStatus(user.id, task.id);
                                             }
                                         }}
                                     >
@@ -97,7 +99,7 @@ const TaskList = () => {
                                     <Button
                                         variant="destructive"
                                         className="flex-1 min-w-[120px] focus:ring-2 focus:ring-destructive focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-                                        onClick={() => deleteTask('currentUserId', task.id)}
+                                        onClick={() => user && deleteTask(user.id, task.id)}
                                         aria-label="Eliminar tarea"
                                     >
                                         Eliminar

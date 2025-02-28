@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTasks } from '../context/TaskContext';
+import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -8,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 
 const CreateTaskForm = () => {
     const { addTask, loading } = useTasks();
+    const { user } = useAuth();
     const [formData, setFormData] = useState({
         name: '',
         priority: 'media' as 'alta' | 'media' | 'baja',
@@ -16,10 +18,10 @@ const CreateTaskForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.name.trim()) return;
+        if (!formData.name.trim() || !user) return;
 
         try {
-            await addTask('currentUserId', formData);
+            await addTask(user.id, formData);
             setFormData({
                 name: '',
                 priority: 'media',
