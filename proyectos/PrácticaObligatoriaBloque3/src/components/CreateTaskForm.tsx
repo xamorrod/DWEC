@@ -21,7 +21,7 @@ const CreateTaskForm = () => {
         if (!formData.name.trim() || !user) return;
 
         try {
-            await addTask(user.id, formData);
+            await addTask(user.uid, formData);
             setFormData({
                 name: '',
                 priority: 'media',

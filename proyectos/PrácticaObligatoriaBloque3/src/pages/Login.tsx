@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Label } from '../components/ui/label';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface LoginFormData {
   email: string;
@@ -102,10 +102,17 @@ const Login = () => {
               )}
             </Button>
 
-            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                ¿Olvidaste tu contraseña?
-              </a>
+            <div className="space-y-4 text-center text-sm text-gray-600 dark:text-gray-400">
+              <div>
+                <Link to="/register" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                  ¿No tienes cuenta? Regístrate
+                </Link>
+              </div>
+              <div>
+                <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
             </div>
           </form>
         </CardContent>

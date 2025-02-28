@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user) {
-      getTasks(user.id);
+      getTasks(user.uid);
     }
   }, [user, getTasks]);
 

@@ -73,13 +73,13 @@ const TaskList = () => {
                                     <Badge
                                         variant={task.status === 'completada' ? 'default' : 'outline'}
                                         className="cursor-pointer transition-colors duration-200 hover:bg-opacity-90"
-                                        onClick={() => user && toggleTaskStatus(user.id, task.id)}
+                                        onClick={() => user && toggleTaskStatus(user.uid, task.id)}
                                         role="switch"
                                         aria-checked={task.status === 'completada'}
                                         tabIndex={0}
                                         onKeyPress={(e) => {
                                             if (e.key === 'Enter' || e.key === ' ') {
-                                                user && toggleTaskStatus(user.id, task.id);
+                                                user && toggleTaskStatus(user.uid, task.id);
                                             }
                                         }}
                                     >
@@ -99,7 +99,7 @@ const TaskList = () => {
                                     <Button
                                         variant="destructive"
                                         className="flex-1 min-w-[120px] focus:ring-2 focus:ring-destructive focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-                                        onClick={() => user && deleteTask(user.id, task.id)}
+                                        onClick={() => user && deleteTask(user.uid, task.id)}
                                         aria-label="Eliminar tarea"
                                     >
                                         Eliminar
